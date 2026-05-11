@@ -72,7 +72,6 @@ body {
 }
 .gift-item:hover { background: var(--soft-pink); }
 
-/* NEW: Music Selection Visuals */
 .music-opt.selected-item {
     border: 3px solid var(--magic-pink) !important;
     background: var(--soft-pink);
