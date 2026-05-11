@@ -1,104 +1,92 @@
 :root {
-    --lavender-glow: #d1c4e9;
-    --deep-purple: #7e57c2;
-    --soft-pink: #ffdae9;
-    --magic-pink: #ff80ab;
+    --primary: #ff85a2;
+    --bg-dark: #1a1a1a;
+    --bg-light: #fff0f3;
 }
-
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
 body {
-    margin: 0; height: 100vh; display: flex; justify-content: center; align-items: center;
-    background: #121212; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden; transition: background 4s ease-in-out; touch-action: none;
+    margin: 0;
+    background: var(--bg-dark);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background 1.5s ease;
+    overflow: hidden;
 }
 
-.lights-on { background: radial-gradient(circle, #fff9fb 0%, #f3e5f5 100%); }
-
-/* Lavender Text for Dark Phase */
-.dark-text { 
-    color: var(--lavender-glow); 
-    text-shadow: 0 0 12px rgba(209, 196, 233, 0.8); 
-    font-weight: 600; 
-    margin-bottom: 15px;
+body.lights-on {
+    background: var(--bg-light);
+    color: #444;
 }
 
 .glass-card {
-    width: 90%; max-width: 360px; min-height: 580px;
-    background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 40px; padding: 25px; text-align: center;
-    z-index: 10; display: flex; flex-direction: column; justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 85%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
-.cute-ui { background: rgba(255, 255, 255, 0.98) !important; border: 3px solid var(--soft-pink) !important; }
-.cute-ui .dark-text { color: #5d4037; text-shadow: none; }
+.cute-ui {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--primary);
+    color: #444;
+}
 
 .cute-btn {
-    background: linear-gradient(135deg, #7e57c2, #ff80ab);
-    color: white; border: none; padding: 18px; border-radius: 25px;
-    font-weight: bold; width: 100%; cursor: pointer; transition: 0.3s;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
 }
+
 .cute-btn:active { transform: scale(0.95); }
-.small { padding: 10px; margin-top: 20px; width: auto; min-width: 120px; }
 
-/* Puppy Love Meter */
-.pet-meter-container {
-    width: 100%; height: 12px; background: #eee; border-radius: 10px;
-    margin: 15px 0; overflow: hidden; border: 1px solid var(--soft-pink);
-}
-#pet-meter-fill {
-    width: 0%; height: 100%; background: linear-gradient(to right, #ff80ab, #ff4081);
-    transition: width 0.3s ease;
+.cute-btn.small {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    margin: 5px;
 }
 
-/* Puppy Styling */
-.puppy { 
-    font-size: 4rem; cursor: pointer; display: inline-block; 
-    margin: 15px; position: relative; transition: 0.2s; 
-}
-.puppy.active-pet { transform: scale(1.2); }
+.hidden { display: none !important; }
 
-/* Heart Particles */
-.heart-pop {
-    position: absolute; pointer-events: none; font-size: 1.5rem;
-    animation: heartFly 1s ease-out forwards; z-index: 100;
-}
-@keyframes heartFly {
-    0% { transform: translate(0, 0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--tx), var(--ty)) scale(0.5); opacity: 0; }
+/* Sparkles & Elements */
+.star {
+    position: fixed;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 100;
+    user-select: none;
 }
 
-/* Cake & Flame */
-.cake-container { font-size: 5rem; cursor: pointer; position: relative; margin-top: 20px; }
-.candle-flame { 
-    position: absolute; top: -10px; left: 50%; transform: translateX(-50%); 
-    font-size: 1.5rem; animation: flicker 0.3s infinite alternate; 
-}
-@keyframes flicker { from { opacity: 0.8; transform: translateX(-50%) scale(1); } to { opacity: 1; transform: translateX(-50%) scale(1.2); } }
+.puppy { font-size: 3rem; cursor: pointer; display: inline-block; margin: 10px; }
 
-/* Gift Menu */
-.gift-item {
-    background: white; border: 2px solid var(--soft-pink);
-    border-radius: 20px; padding: 15px; margin: 10px 0;
-    cursor: pointer; transition: 0.3s; color: var(--deep-purple); font-weight: bold;
+/* Music Menu Layout */
+#music-menu {
+    margin-top: 15px;
+    animation: fadeIn 1s;
 }
-.gift-item:hover { background: var(--soft-pink); }
 
-/* Overlay View */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Gift Overlay */
 .overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 255, 255, 0.98); z-index: 100;
-    display: flex; justify-content: center; align-items: center;
-    opacity: 0; pointer-events: none; transition: 0.5s;
+    background: rgba(0,0,0,0.85); z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: 0.5s;
 }
-.overlay.visible { opacity: 1; pointer-events: auto; }
-.overlay-content { width: 85%; max-width: 320px; text-align: center; }
+.overlay.visible { opacity: 1; }
+.overlay-content { background: white; padding: 2rem; border-radius: 15px; color: #333; width: 80%; }
 
-.letter-box { font-style: italic; line-height: 1.6; color: #444; background: #fff; padding: 20px; border-radius: 15px; border: 1px solid #ddd; text-align: left; }
-.gift-link-btn { background: #ff80ab; color: white; border: none; padding: 15px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
-
-#meter-fill { width: 0%; height: 12px; background: linear-gradient(to right, #ff80ab, #7e57c2); border-radius: 6px; }
-.hidden { display: none !important; }
-.star { position: absolute; font-size: 2rem; cursor: pointer; z-index: 20; }
-.polaroid { background: white; padding: 8px 8px 30px 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 1px solid #eee; margin: 5px auto; width: 150px; }
-.polaroid img { width: 100%; height: 140px; object-fit: cover; }
