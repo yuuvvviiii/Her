@@ -53,7 +53,7 @@ function startSparkleQuest() {
     }
 }
 
-// --- UPDATED NAVIGATION ---
+// --- NAVIGATION ---
 function next() {
     step++;
     const status = document.getElementById('status');
@@ -83,7 +83,7 @@ function next() {
     }
 }
 
-// --- REST OF ORIGINAL CODE ---
+// --- PUPPY LOGIC ---
 function startPetting(e, el) {
     el.classList.add('active-pet');
     if (el.innerText === "🐶") el.innerText = "🤩";
@@ -140,6 +140,7 @@ function petPuppy(e, el) {
     }
 }
 
+// --- CAKE & WISH LOGIC ---
 function startWish() {
     let progress = 0; let timer;
     const btn = document.getElementById('next-btn');
@@ -158,9 +159,13 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Yummy 😋";
+    // Set the prompt to cut the cake
+    document.getElementById('status').innerText = "Wish Sent! Ab Cake Kaate?? 🎂";
+    
     document.getElementById('cake-obj').onclick = () => {
-        document.getElementById('cake-obj').innerHTML = "🍰";
+        document.getElementById('cake-obj').innerHTML = "🍰"; // Changes cake to slice
+        document.getElementById('status').innerText = "Yummy 😋"; // Changes text ONLY when clicked
+        
         const btn = document.getElementById('next-btn');
         btn.classList.remove('hidden');
         btn.innerText = "See My Gifts 🎁";
@@ -168,6 +173,7 @@ function finishWish() {
     };
 }
 
+// --- GIFTS LOGIC ---
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
@@ -197,4 +203,3 @@ function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
     setTimeout(() => document.getElementById('gift-overlay').classList.add('hidden'), 500);
 }
-
