@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div id="fx-container"></div>
     <div id="sparkle-layer"></div>
 
@@ -17,7 +16,7 @@
             <div id="dynamic-song-list"></div>
         </div>
         <div class="disc-wrapper" onclick="toggleMiniMenu()">
-            <img src="https://cdn-icons-png.flaticon.com/512/265/265674.png" id="spinning-disc" class="disc-img">
+            <img src="https://cdn-icons-png.flaticon.com/512/3061/3061175.png" id="spinning-disc" class="disc-img">
         </div>
     </div>
 
@@ -33,7 +32,6 @@
             <h2 id="title">HeHe Suprisee🤭✨</h2>
             <div id="quest-tag" class="hidden">Goal: Catch 5 Sparkles ✨</div>
         </div>
-
         <div id="content">
             <div id="step-0">
                 <p class="dark-text">Enter The Special Date 🌸(MMDD) 🗝️</p>
@@ -41,36 +39,28 @@
                 <br><br>
                 <button class="cute-btn" onclick="unlock()">Open with Love ❤️</button>
             </div>
-
             <div id="celebration" class="hidden">
                 <p id="status" class="dark-text">Ye Jagah Thodi Dark Nahi Hai?? </p>
-                
                 <div id="music-screen" class="hidden">
                     <p class="dark-text">Thode Gaane Vagera Ho Jaae? 🎵</p>
                     <div class="gift-item music-opt" onclick="selectSong(this, 'KUKKAD 😸', 'song1.mp3')">KUKKAD 😸</div>
                     <div class="gift-item music-opt" onclick="selectSong(this, 'I WANNA BE YOURS 🌸', 'song2.mp3')">I WANNA BE YOURS 🌸</div>
                     <div class="gift-item music-opt" onclick="selectSong(this, 'TUM HO TOH 🌷', 'song3.mp3')">TUM HO TOH 🌷</div>
                     <div class="gift-item music-opt" onclick="selectSong(this, 'CHAUDHARY🎀', 'song4.mp3')">CHAUDHARY🎀</div>
-                    
                     <button id="confirm-music" class="cute-btn small hidden" onclick="confirmMusic()">Confirm & Proceed ❤️</button>
                 </div>
-
                 <div id="stage"></div>
-                
                 <div id="meter-container" class="hidden">
                     <div id="meter-fill"></div>
                     <div id="heart-pulse">💖</div>
                 </div>
             </div>
         </div>
-
         <div class="footer">
             <button id="next-btn" class="hidden cute-btn" onclick="next()">Turn on the lights 🕯️</button>
         </div>
     </div>
-
-    <audio id="bg-music" loop="false"></audio>
-
+    <audio id="bg-music"></audio>
     <script src="script.js"></script>
 </body>
 </html>
