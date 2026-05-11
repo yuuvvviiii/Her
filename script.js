@@ -36,7 +36,6 @@ function selectSong(el, name, url) {
     }
 }
 
-// Function to stop music completely
 function stopMusic() {
     audio.pause();
     audio.currentTime = 0;
@@ -44,7 +43,7 @@ function stopMusic() {
     document.getElementById('mini-menu').classList.remove('show');
 }
 
-// Autoplay Logic: When song finishes, play next
+// Autoplay
 audio.addEventListener('ended', function() {
     currentSongIndex++;
     if (currentSongIndex >= songData.length) currentSongIndex = 0;
@@ -57,9 +56,7 @@ function toggleMiniMenu() {
     const list = document.getElementById('dynamic-song-list');
     menu.classList.toggle('show');
     
-    // Always refresh list to keep stop button at top
     list.innerHTML = `<button class="stop-btn" onclick="stopMusic()">Stop Music ⏹️</button>`;
-    
     songData.forEach(song => {
         const item = document.createElement('div');
         item.className = 'menu-song-item';
@@ -92,7 +89,7 @@ function startSparkleQuest() {
             document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
             if(starsFound === 5) {
                 btn.classList.remove('hidden');
-                btn.innerText = "Kuch Cuties Ko Invite Kare??😁";
+                btn.innerText = "Invite Cuties? 😁";
             }
         };
         document.body.appendChild(s);
@@ -108,13 +105,13 @@ function next() {
     if (step === 1) {
         document.body.classList.add('lights-on');
         document.getElementById('main-card').classList.add('cute-ui');
-        status.innerText = "The room is glowing... 🌸";
+        status.innerText = "Glowing... 🌸";
         btn.classList.add('hidden');
         setTimeout(() => { document.getElementById('music-screen').classList.remove('hidden'); }, 1500);
     } 
     else if (step === 2) {
         document.getElementById('quest-tag').classList.add('hidden');
-        status.innerText = "The puppies want love! Pet them! ❤️";
+        status.innerText = "Pet the puppies! ❤️";
         btn.classList.add('hidden');
         stage.innerHTML = `
             <div class="pet-meter-container"><div id="pet-meter-fill"></div></div>
@@ -124,22 +121,19 @@ function next() {
     }
 }
 
-function startPetting(e, el) {
-    el.classList.add('active-pet');
-    petPuppy(e, el);
-}
-function stopPetting(el) { el.classList.remove('active-pet'); }
+function startPetting(e, el) { petPuppy(); }
+function stopPetting(el) {}
 
-function petPuppy(e, el) {
+function petPuppy() {
     puppyPets++;
     const meter = document.getElementById('pet-meter-fill');
     if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
     if(puppyPets >= 10) {
-        document.getElementById('status').innerText = "Ye Lo Aapke Liye Cake!!🎂";
-        document.getElementById('stage').innerHTML = `<div class="cake-container" id="cake-obj"><span id="flame" class="candle-flame hidden">🔥</span>🎂</div>`;
+        document.getElementById('status').innerText = "Cake Time!! 🎂";
+        document.getElementById('stage').innerHTML = `<div id="cake-obj"><span id="flame" class="candle-flame hidden">🔥</span>🎂</div>`;
         const btn = document.getElementById('next-btn');
         btn.classList.remove('hidden');
-        btn.innerText = "Light the Candle";
+        btn.innerText = "Light Candle";
         btn.onclick = () => {
             document.getElementById('flame').classList.remove('hidden');
             btn.innerText = "HOLD TO WISH ✨";
@@ -164,7 +158,7 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Ab Cake Kaate?? 🎂";
+    document.getElementById('status').innerText = "Cut the cake? 🎂";
     document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
@@ -179,17 +173,17 @@ function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('stage').innerHTML = `
-        <div class="polaroid"><img src="2344.jpg" alt="Us"></div>
-        <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
-        <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
-        <div class="gift-item" onclick="openGift(3)">🎁 Gift 3: Surprise B</div>
+        <div class="polaroid"><img src="2344.jpg"></div>
+        <div class="gift-item" onclick="openGift(1)">🎁 A Letter</div>
+        <div class="gift-item" onclick="openGift(2)">🎁 Surprise A</div>
+        <div class="gift-item" onclick="openGift(3)">🎁 Surprise B</div>
     `;
 }
 
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
-    if(id === 1) display.innerHTML = `<h3>My Letter</h3><div class="letter-box">Happy birthday! You are the best thing that ever happened to me.</div>`;
+    if(id === 1) display.innerHTML = `<h3>My Letter</h3><div class="letter-box">Happy birthday! You are the best thing in my life.</div>`;
     else if(id === 2) display.innerHTML = `<h3>Gift A</h3><button class="gift-link-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo', '_blank')">Watch ✨</button>`;
     else if(id === 3) display.innerHTML = `<h3>Gift B</h3><button class="gift-link-btn" onclick="window.open('https://youtu.be/QDia3e12czc', '_blank')">Watch 💖</button>`;
     overlay.classList.remove('hidden');
