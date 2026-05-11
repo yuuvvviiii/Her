@@ -1,51 +1,10 @@
 let step = 0;
 let starsFound = 0;
 let puppyPets = 0;
-let selectedSong = ""; 
-
-// Reference to the audio player
 const player = new Audio();
 
-/**
- * MUSIC LOGIC
- * Allows her to preview songs. The "Confirm" button only appears after a selection.
- */
-function playSong(file, displayName) {
-    selectedSong = file;
-    player.src = file;
-    player.volume = 0.5;
-    player.loop = true;
-    player.play().catch(e => console.log("Playback interaction handled."));
-
-    const status = document.getElementById('status');
-    status.innerText = `Listening to: ${displayName} 🎵`;
-
-    // Show the Confirm button once she taps a song
-    const confirmBtn = document.getElementById('confirm-music-btn');
-    if (confirmBtn) confirmBtn.classList.remove('hidden');
-}
-
-/**
- * CONFIRM LOGIC
- * Locks in the song and starts the sparkle game.
- */
-function confirmMusic() {
-    const status = document.getElementById('status');
-    status.innerText = "Great choice! Now, catch 5 sparkles ✨";
-    
-    // Hide the music menu
-    const menu = document.getElementById('music-menu');
-    if(menu) menu.style.display = 'none';
-    
-    // Start the next game phase
-    startSparkleGame();
-}
-
-/**
- * UNLOCK LOGIC
- */
+// 1. UNLOCK FUNCTION
 function unlock() {
-    // Current password: 0623
     if(document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
@@ -55,9 +14,35 @@ function unlock() {
     }
 }
 
-/**
- * MAIN GAME FLOW
- */
+// 2. PLAY & PREVIEW FUNCTION (She can click these as much as she wants)
+function playSong(file, displayName) {
+    player.src = file;
+    player.volume = 0.5;
+    player.loop = true;
+    player.play().catch(e => console.log("Interaction needed"));
+
+    const status = document.getElementById('status');
+    status.innerText = `Currently playing: ${displayName} 🎵`;
+
+    // Show the Confirm button only AFTER she picks a song to hear
+    const confirmBtn = document.getElementById('confirm-music-btn');
+    if (confirmBtn) confirmBtn.classList.remove('hidden');
+}
+
+// 3. CONFIRM FUNCTION (This moves her to the sparkles)
+function confirmMusic() {
+    const status = document.getElementById('status');
+    const stage = document.getElementById('stage');
+    
+    // Clear the music menu buttons
+    stage.innerHTML = ''; 
+    status.innerText = "Great choice! Now, catch 5 sparkles ✨";
+    
+    // Start the sparkle game
+    startSparkleGame();
+}
+
+// 4. MAIN FLOW CONTROL
 function next() {
     step++;
     const status = document.getElementById('status');
@@ -65,30 +50,30 @@ function next() {
     const stage = document.getElementById('stage');
 
     if (step === 1) {
-        // Transition to "Lights On"
+        // LIGHTS ON
         document.body.classList.add('lights-on');
         document.getElementById('main-card').classList.add('cute-ui');
         status.innerText = "The room is glowing... 🌸";
-        btn.classList.add('hidden');
+        btn.classList.add('hidden'); // Hide "Turn on lights" button
         
-        // Inject the Music Selection Interface
+        // SHOW MUSIC MENU (Does NOT start sparkles yet)
         stage.innerHTML = `
-            <div id="music-menu" style="margin-top:20px; animation: fadeIn 0.8s;">
-                <p class="dark-text" style="font-size: 0.9rem; margin-bottom: 12px;">Tap to preview, then confirm your vibe: 🎵</p>
-                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+            <div id="music-menu" style="margin-top:20px;">
+                <p class="dark-text">Choose a song to set the mood: 🎵</p>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
                     <button class="cute-btn small" onclick="playSong('song1.mp3', 'Sweet 🌸')">Song 1</button>
                     <button class="cute-btn small" onclick="playSong('song2.mp3', 'Romantic ✨')">Song 2</button>
                     <button class="cute-btn small" onclick="playSong('song3.mp3', 'Our Fav 💖')">Song 3</button>
                 </div>
                 <br>
                 <button id="confirm-music-btn" class="cute-btn hidden" 
-                        style="background: #4caf50; margin-top: 15px; width: 80%;" 
-                        onclick="confirmMusic()">Confirm & Continue ✅</button>
+                        style="background: #4caf50; margin-top: 15px;" 
+                        onclick="confirmMusic()">I love this song! Continue ✨</button>
             </div>
         `;
     } 
     else if (step === 2) {
-        // Transition to Puppies
+        // CALL THE PUPPIES
         document.getElementById('quest-tag').classList.add('hidden');
         status.innerText = "The puppies want love! Pet them! ❤️";
         btn.classList.add('hidden');
@@ -102,17 +87,14 @@ function next() {
     }
 }
 
-/**
- * SPARKLE GAME LOGIC
- */
+// 5. SPARKLE GAME (Triggered only by Confirm Music)
 function startSparkleGame() {
     const btn = document.getElementById('next-btn');
     document.getElementById('quest-tag').classList.remove('hidden');
     
     for(let i=0; i<5; i++) {
         const s = document.createElement('div');
-        s.className = 'star'; 
-        s.innerText = '✨';
+        s.className = 'star'; s.innerText = '✨';
         s.style.left = Math.random()*70+15 + 'vw'; 
         s.style.top = Math.random()*60+20 + 'vh';
         s.onclick = function() {
@@ -128,9 +110,8 @@ function startSparkleGame() {
     }
 }
 
-/**
- * PUPPY PETTING LOGIC
- */
+// --- EVERYTHING BELOW REMAINS THE SAME ---
+
 function startPetting(e, el) {
     el.style.transform = "scale(1.2)";
     if (el.innerText === "🐶") el.innerText = "🤩";
@@ -150,14 +131,10 @@ function petPuppy(e, el) {
     puppyPets++;
     const meter = document.getElementById('pet-meter-fill');
     if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
-
     if(puppyPets >= 10) {
         setTimeout(() => {
             document.getElementById('status').innerText = "They love you! Here is your cake! 🎂";
-            document.getElementById('stage').innerHTML = `
-                <div class="cake-container" id="cake-obj" style="font-size:4rem; cursor:pointer;">
-                    <span id="flame" class="hidden">🔥</span>🎂
-                </div>`;
+            document.getElementById('stage').innerHTML = `<div class="cake-container" id="cake-obj" style="font-size:4rem; cursor:pointer;"><span id="flame" class="hidden">🔥</span>🎂</div>`;
             const btn = document.getElementById('next-btn');
             btn.classList.remove('hidden');
             btn.innerText = "Light the Candle";
@@ -172,22 +149,14 @@ function petPuppy(e, el) {
     }
 }
 
-/**
- * WISH LOGIC
- */
 function startWish() {
-    let progress = 0; 
-    let timer;
+    let progress = 0; let timer;
     const btn = document.getElementById('next-btn');
     btn.onpointerdown = () => {
         timer = setInterval(() => {
             progress += 2;
             document.getElementById('meter-fill').style.width = progress + "%";
-            if(progress >= 100) { 
-                clearInterval(timer); 
-                btn.classList.add('hidden');
-                finishWish(); 
-            }
+            if(progress >= 100) { clearInterval(timer); btn.classList.add('hidden'); finishWish(); }
         }, 50);
     };
     btn.onpointerup = () => clearInterval(timer);
@@ -199,15 +168,11 @@ function finishWish() {
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
         const btn = document.getElementById('next-btn');
-        btn.classList.remove('hidden');
-        btn.innerText = "See My Gifts 🎁";
+        btn.classList.remove('hidden'); btn.innerText = "See My Gifts 🎁";
         btn.onclick = showGifts;
     };
 }
 
-/**
- * GIFT LOGIC
- */
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
@@ -222,9 +187,8 @@ function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
     if(id === 1) display.innerHTML = `<h3>My Letter</h3><p>Happy birthday! I made this just for you.</p>`;
-    else if(id === 2) display.innerHTML = `<h3>Surprise A</h3><button class="cute-btn" onclick="window.open('URL_HERE')">View Surprise</button>`;
-    else if(id === 3) display.innerHTML = `<h3>Surprise B</h3><p>You're the best!</p>`;
-    
+    else if(id === 2) display.innerHTML = `<h3>Surprise A</h3><p>You're the best!</p>`;
+    else if(id === 3) display.innerHTML = `<h3>Surprise B</h3><p>Forever and always.</p>`;
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
 }
@@ -233,4 +197,3 @@ function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
     setTimeout(() => document.getElementById('gift-overlay').classList.add('hidden'), 500);
 }
-
