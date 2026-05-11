@@ -184,7 +184,7 @@ function openGift(id) {
     } else if(id === 2) {
         display.innerHTML = `<h3>Surprise A</h3><button class="gift-link-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ', '_blank')">View Gift ✨</button>`;
     } else if(id === 3) {
-        display.innerHTML = `<h3>Surprise B</h3><button class="gift-link-btn" onclick="window.open('https://youtu.be/QDia3e12czc?si=NvmVbsoe-gZQdujW', '_blank')">View Gift 💖</button>`;
+        display.innerHTML = `<h3>Surprise B</h3><button class="gift-link-btn" onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044', '_blank')">View Gift 💖</button>`;
     }
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
