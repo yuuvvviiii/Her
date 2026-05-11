@@ -11,6 +11,16 @@
     <div id="fx-container"></div>
     <div id="sparkle-layer"></div>
 
+    <div class="music-control-container">
+        <div id="mini-menu" class="mini-music-menu">
+            <p class="menu-header">Switch Mood 🎵</p>
+            <div id="dynamic-song-list"></div>
+        </div>
+        <div class="disc-wrapper" onclick="toggleMiniMenu()">
+            <img src="https://cdn-icons-png.flaticon.com/512/265/265674.png" id="spinning-disc" class="disc-img">
+        </div>
+    </div>
+
     <div id="gift-overlay" class="overlay hidden">
         <div class="overlay-content">
             <div id="gift-display"></div>
@@ -37,10 +47,11 @@
                 
                 <div id="music-screen" class="hidden">
                     <p class="dark-text">Thode Gaane Vagera Ho Jaae? 🎵</p>
-                    <div class="gift-item music-opt" onclick="selectSong(this, 'song1.mp3')">BLUE🩵</div>
-                    <div class="gift-item music-opt" onclick="selectSong(this, 'song2.mp3')">O RANGREZ🌷</div>
-                    <div class="gift-item music-opt" onclick="selectSong(this, 'song3.mp3')">TUM HO TOH🌸</div>
-                    <div class="gift-item music-opt" onclick="selectSong(this, 'song4.mp3')">CHAUDARY🎀</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'BLUE🩵', 'song1.mp3')">BLUE🩵</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'O RANGREZ🌷', 'song2.mp3')">O RANGREZ🌷</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'TUM HO TOH🌸', 'song3.mp3')">TUM HO TOH🌸</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'CHAUDARY🎀', 'song4.mp3')">CHAUDARY🎀</div>
+                    
                     <button id="confirm-music" class="cute-btn small hidden" onclick="confirmMusic()">Confirm & Proceed ❤️</button>
                 </div>
 
@@ -58,23 +69,8 @@
         </div>
     </div>
 
-    <div id="music-player-container" class="hidden">
-        <div id="music-disc" onclick="toggleMusicMenu()">
-            <span class="disc-icon">💿</span>
-        </div>
-        <div id="mini-menu" class="menu-hidden">
-            <p class="menu-title">Music Box 🎵</p>
-            <div class="menu-item" onclick="changeSong('song1.mp3')">BLUE🩵</div>
-            <div class="menu-item" onclick="changeSong('song2.mp3')">O RANGREZ🌷</div>
-            <div class="menu-item" onclick="changeSong('song3.mp3')">TUM HO TOH🌸</div>
-            <div class="menu-item" onclick="changeSong('song4.mp3')">CHAUDARY🎀</div>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-            <button class="stop-btn" onclick="stopMusic()">Stop Music ⏹️</button>
-        </div>
-    </div>
+    <audio id="bg-music" loop="false"></audio>
 
-    <audio id="bg-music"></audio>
     <script src="script.js"></script>
 </body>
 </html>
-
