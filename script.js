@@ -14,12 +14,13 @@ const audio = document.getElementById('bg-music');
 const disc = document.getElementById('spinning-disc');
 
 function unlock() {
-    if(document.getElementById('pw').value === "0623") {
+    const pw = document.getElementById('pw').value;
+    if(pw === "0623") {
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
         document.getElementById('next-btn').classList.remove('hidden');
     } else {
-        alert("Wrong code! Try again ❤️");
+        alert("Wrong code! ❤️");
     }
 }
 
@@ -30,23 +31,21 @@ function selectSong(el, name, url) {
     disc.classList.add('playing');
     
     if(el) {
-        document.querySelectorAll('.music-opt').forEach(opt => opt.classList.remove('selected-item'));
-        el.classList.add('selected-item');
+        document.querySelectorAll('.music-opt').forEach(opt => opt.style.borderColor = "#eee");
+        el.style.borderColor = "#ff80ab";
         document.getElementById('confirm-music').classList.remove('hidden');
     }
 }
 
 function stopMusic() {
     audio.pause();
-    audio.currentTime = 0;
     disc.classList.remove('playing');
     document.getElementById('mini-menu').classList.remove('show');
 }
 
-// Autoplay
+// Autoplay logic
 audio.addEventListener('ended', function() {
-    currentSongIndex++;
-    if (currentSongIndex >= songData.length) currentSongIndex = 0;
+    currentSongIndex = (currentSongIndex + 1) % songData.length;
     const nextSong = songData[currentSongIndex];
     selectSong(null, nextSong.name, nextSong.url);
 });
@@ -61,35 +60,28 @@ function toggleMiniMenu() {
         const item = document.createElement('div');
         item.className = 'menu-song-item';
         item.innerText = song.name;
-        item.onclick = () => {
-            selectSong(null, song.name, song.url);
-            menu.classList.remove('show');
-        };
+        item.onclick = () => { selectSong(null, song.name, song.url); menu.classList.remove('show'); };
         list.appendChild(item);
     });
 }
 
 function confirmMusic() {
     document.getElementById('music-screen').classList.add('hidden');
-    startSparkleQuest();
-}
-
-function startSparkleQuest() {
-    const status = document.getElementById('status');
-    const btn = document.getElementById('next-btn');
-    status.innerText = "Catch 5 sparkles!!!!✨";
+    document.getElementById('status').innerText = "Catch 5 sparkles!!!!✨";
     document.getElementById('quest-tag').classList.remove('hidden');
     
     for(let i=0; i<5; i++) {
         const s = document.createElement('div');
         s.className = 'star'; s.innerText = '✨';
-        s.style.left = Math.random()*70+15 + 'vw'; s.style.top = Math.random()*60+20 + 'vh';
+        s.style.left = Math.random()*80 + 'vw';
+        s.style.top = Math.random()*80 + 'vh';
         s.onclick = function() {
-            this.remove(); starsFound++;
+            this.remove();
+            starsFound++;
             document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
             if(starsFound === 5) {
-                btn.classList.remove('hidden');
-                btn.innerText = "Invite Cuties? 😁";
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('next-btn').innerText = "Invite Cuties? 😁";
             }
         };
         document.body.appendChild(s);
@@ -105,92 +97,50 @@ function next() {
     if (step === 1) {
         document.body.classList.add('lights-on');
         document.getElementById('main-card').classList.add('cute-ui');
-        status.innerText = "Glowing... 🌸";
+        status.innerText = "The room is glowing... 🌸";
         btn.classList.add('hidden');
-        setTimeout(() => { document.getElementById('music-screen').classList.remove('hidden'); }, 1500);
+        setTimeout(() => { document.getElementById('music-screen').classList.remove('hidden'); }, 1000);
     } 
     else if (step === 2) {
         document.getElementById('quest-tag').classList.add('hidden');
-        status.innerText = "Pet the puppies! ❤️";
+        status.innerText = "The puppies want love! Pet them! ❤️";
         btn.classList.add('hidden');
-        stage.innerHTML = `
-            <div class="pet-meter-container"><div id="pet-meter-fill"></div></div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐶</div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐕</div>
-        `;
+        stage.innerHTML = `<div class="puppy" onclick="petPuppy()">🐶</div><div class="puppy" onclick="petPuppy()">🐕</div>`;
     }
 }
-
-function startPetting(e, el) { petPuppy(); }
-function stopPetting(el) {}
 
 function petPuppy() {
     puppyPets++;
-    const meter = document.getElementById('pet-meter-fill');
-    if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
     if(puppyPets >= 10) {
-        document.getElementById('status').innerText = "Cake Time!! 🎂";
-        document.getElementById('stage').innerHTML = `<div id="cake-obj"><span id="flame" class="candle-flame hidden">🔥</span>🎂</div>`;
-        const btn = document.getElementById('next-btn');
-        btn.classList.remove('hidden');
-        btn.innerText = "Light Candle";
-        btn.onclick = () => {
-            document.getElementById('flame').classList.remove('hidden');
-            btn.innerText = "HOLD TO WISH ✨";
-            document.getElementById('meter-container').classList.remove('hidden');
-            startWish();
-        };
+        status.innerText = "Cake Time!! 🎂";
+        stage.innerHTML = `<div id="cake-obj" style="font-size:5rem; cursor:pointer;" onclick="cutCake()">🎂</div>`;
     }
 }
 
-function startWish() {
-    let progress = 0; let timer;
+function cutCake() {
+    document.getElementById('cake-obj').innerText = "🍰";
     const btn = document.getElementById('next-btn');
-    btn.onpointerdown = () => {
-        timer = setInterval(() => {
-            progress += 2;
-            document.getElementById('meter-fill').style.width = progress + "%";
-            if(progress >= 100) { clearInterval(timer); finishWish(); }
-        }, 50);
-    };
-    btn.onpointerup = () => clearInterval(timer);
-}
-
-function finishWish() {
-    document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Cut the cake? 🎂";
-    document.getElementById('next-btn').classList.add('hidden');
-    document.getElementById('cake-obj').onclick = () => {
-        document.getElementById('cake-obj').innerHTML = "🍰";
-        const btn = document.getElementById('next-btn');
-        btn.classList.remove('hidden');
-        btn.innerText = "See My Gifts 🎁";
-        btn.onclick = showGifts;
-    };
+    btn.classList.remove('hidden');
+    btn.innerText = "See My Gifts 🎁";
+    btn.onclick = showGifts;
 }
 
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('stage').innerHTML = `
-        <div class="polaroid"><img src="2344.jpg"></div>
-        <div class="gift-item" onclick="openGift(1)">🎁 A Letter</div>
-        <div class="gift-item" onclick="openGift(2)">🎁 Surprise A</div>
-        <div class="gift-item" onclick="openGift(3)">🎁 Surprise B</div>
+        <div class="gift-item" onclick="openGift('Happy birthday! You are the absolute best.')">🎁 A Letter</div>
+        <div class="gift-item" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo')">🎁 Surprise A</div>
     `;
 }
 
-function openGift(id) {
+function openGift(text) {
     const overlay = document.getElementById('gift-overlay');
-    const display = document.getElementById('gift-display');
-    if(id === 1) display.innerHTML = `<h3>My Letter</h3><div class="letter-box">Happy birthday! You are the best thing in my life.</div>`;
-    else if(id === 2) display.innerHTML = `<h3>Gift A</h3><button class="gift-link-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo', '_blank')">Watch ✨</button>`;
-    else if(id === 3) display.innerHTML = `<h3>Gift B</h3><button class="gift-link-btn" onclick="window.open('https://youtu.be/QDia3e12czc', '_blank')">Watch 💖</button>`;
+    document.getElementById('gift-display').innerText = text;
     overlay.classList.remove('hidden');
-    setTimeout(() => overlay.classList.add('visible'), 10);
 }
 
 function closeGift() {
-    document.getElementById('gift-overlay').classList.remove('visible');
-    setTimeout(() => document.getElementById('gift-overlay').classList.add('hidden'), 500);
+    document.getElementById('gift-overlay').classList.add('hidden');
 }
+
