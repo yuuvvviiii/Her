@@ -3,8 +3,10 @@ let starsFound = 0;
 let puppyPets = 0;
 const player = new Audio();
 
-// 1. UNLOCK FUNCTION
+/** * 1. UNLOCK LOGIC 
+ */
 function unlock() {
+    // Current password: 0623
     if(document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
@@ -14,35 +16,36 @@ function unlock() {
     }
 }
 
-// 2. PLAY & PREVIEW FUNCTION (She can click these as much as she wants)
+/** * 2. MUSIC PREVIEW LOGIC 
+ */
 function playSong(file, displayName) {
     player.src = file;
     player.volume = 0.5;
     player.loop = true;
-    player.play().catch(e => console.log("Interaction needed"));
+    player.play().catch(e => console.log("Interaction needed for audio"));
 
     const status = document.getElementById('status');
     status.innerText = `Currently playing: ${displayName} 🎵`;
 
-    // Show the Confirm button only AFTER she picks a song to hear
+    // Show the Confirm button only AFTER a song is picked
     const confirmBtn = document.getElementById('confirm-music-btn');
     if (confirmBtn) confirmBtn.classList.remove('hidden');
 }
 
-// 3. CONFIRM FUNCTION (This moves her to the sparkles)
+/** * 3. CONFIRM MUSIC & START SPARKLES 
+ */
 function confirmMusic() {
     const status = document.getElementById('status');
     const stage = document.getElementById('stage');
     
-    // Clear the music menu buttons
-    stage.innerHTML = ''; 
+    stage.innerHTML = ''; // Clear buttons
     status.innerText = "Great choice! Now, catch 5 sparkles ✨";
     
-    // Start the sparkle game
     startSparkleGame();
 }
 
-// 4. MAIN FLOW CONTROL
+/** * 4. MAIN FLOW CONTROL 
+ */
 function next() {
     step++;
     const status = document.getElementById('status');
@@ -50,13 +53,13 @@ function next() {
     const stage = document.getElementById('stage');
 
     if (step === 1) {
-        // LIGHTS ON
+        // Transition to Lights On
         document.body.classList.add('lights-on');
         document.getElementById('main-card').classList.add('cute-ui');
         status.innerText = "The room is glowing... 🌸";
-        btn.classList.add('hidden'); // Hide "Turn on lights" button
+        btn.classList.add('hidden'); 
         
-        // SHOW MUSIC MENU (Does NOT start sparkles yet)
+        // Show Music Selection Menu
         stage.innerHTML = `
             <div id="music-menu" style="margin-top:20px;">
                 <p class="dark-text">Choose a song to set the mood: 🎵</p>
@@ -73,7 +76,7 @@ function next() {
         `;
     } 
     else if (step === 2) {
-        // CALL THE PUPPIES
+        // Transition to Puppy Petting
         document.getElementById('quest-tag').classList.add('hidden');
         status.innerText = "The puppies want love! Pet them! ❤️";
         btn.classList.add('hidden');
@@ -87,7 +90,8 @@ function next() {
     }
 }
 
-// 5. SPARKLE GAME (Triggered only by Confirm Music)
+/** * 5. SPARKLE GAME LOGIC 
+ */
 function startSparkleGame() {
     const btn = document.getElementById('next-btn');
     document.getElementById('quest-tag').classList.remove('hidden');
@@ -110,8 +114,8 @@ function startSparkleGame() {
     }
 }
 
-// --- EVERYTHING BELOW REMAINS THE SAME ---
-
+/** * 6. PUPPY PETTING LOGIC 
+ */
 function startPetting(e, el) {
     el.style.transform = "scale(1.2)";
     if (el.innerText === "🐶") el.innerText = "🤩";
@@ -131,44 +135,84 @@ function petPuppy(e, el) {
     puppyPets++;
     const meter = document.getElementById('pet-meter-fill');
     if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
+
     if(puppyPets >= 10) {
         setTimeout(() => {
             document.getElementById('status').innerText = "They love you! Here is your cake! 🎂";
-            document.getElementById('stage').innerHTML = `<div class="cake-container" id="cake-obj" style="font-size:4rem; cursor:pointer;"><span id="flame" class="hidden">🔥</span>🎂</div>`;
+            document.getElementById('stage').innerHTML = `
+                <div class="cake-container" id="cake-obj" style="font-size:4rem; cursor:pointer;">
+                    <span id="flame" class="hidden">🔥</span>🎂
+                </div>`;
+            
             const btn = document.getElementById('next-btn');
             btn.classList.remove('hidden');
             btn.innerText = "Light the Candle";
+            
             btn.onclick = () => {
                 document.getElementById('flame').classList.remove('hidden');
                 document.getElementById('status').innerText = "Make a wish! Hold the button.";
                 btn.innerText = "HOLD TO WISH ✨";
                 document.getElementById('meter-container').classList.remove('hidden');
+                
+                // Clear the click event so it doesn't conflict with the hold
+                btn.onclick = null; 
                 startWish();
             };
         }, 500);
     }
 }
 
+/** * 7. HOLD TO WISH LOGIC (FIXED)
+ */
 function startWish() {
-    let progress = 0; let timer;
+    let progress = 0;
+    let timer = null;
     const btn = document.getElementById('next-btn');
-    btn.onpointerdown = () => {
+    const fill = document.getElementById('meter-fill');
+
+    fill.style.width = "0%";
+
+    const stopTimer = () => {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+        }
+    };
+
+    btn.onpointerdown = (e) => {
+        e.preventDefault();
+        if (timer) return;
+
         timer = setInterval(() => {
             progress += 2;
-            document.getElementById('meter-fill').style.width = progress + "%";
-            if(progress >= 100) { clearInterval(timer); btn.classList.add('hidden'); finishWish(); }
+            fill.style.width = progress + "%";
+            
+            if (progress >= 100) {
+                stopTimer();
+                btn.classList.add('hidden');
+                // Remove listeners after completion
+                btn.onpointerdown = null;
+                btn.onpointerup = null;
+                btn.onpointerleave = null;
+                finishWish();
+            }
         }, 50);
     };
-    btn.onpointerup = () => clearInterval(timer);
+
+    btn.onpointerup = stopTimer;
+    btn.onpointerleave = stopTimer;
 }
 
+/** * 8. FINISH & GIFTS 
+ */
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
     document.getElementById('status').innerText = "Wish Sent! Slice the cake!";
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
         const btn = document.getElementById('next-btn');
-        btn.classList.remove('hidden'); btn.innerText = "See My Gifts 🎁";
+        btn.classList.remove('hidden');
+        btn.innerText = "See My Gifts 🎁";
         btn.onclick = showGifts;
     };
 }
