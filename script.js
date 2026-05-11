@@ -7,7 +7,7 @@ const songData = [
     { name: 'KUKKAD 😸', url: 'song1.mp3' },
     { name: 'I WANNA BE YOURS 🌸', url: 'song2.mp3' },
     { name: 'TUM HO TOH 🌷', url: 'song3.mp3' },
-    { name: 'CHAUDARY 🎀', url: 'song4.mp3' }
+    { name: 'CHAUDHARY 🎀', url: 'song4.mp3' }
 ];
 
 const audio = document.getElementById('bg-music');
