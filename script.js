@@ -34,7 +34,7 @@ function confirmMusic() {
 function startSparkleQuest() {
     const status = document.getElementById('status');
     const btn = document.getElementById('next-btn');
-    status.innerText = "Catch 5 sparkles to invite the pups!";
+    status.innerText = "Catch 5 sparkles!!!!✨";
     document.getElementById('quest-tag').classList.remove('hidden');
     
     for(let i=0; i<5; i++) {
@@ -158,7 +158,7 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Wish Sent! Slice the cake!";
+    document.getElementById('status').innerText = "Wish Sent! Abhi Cake Kaate??";
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
         const btn = document.getElementById('next-btn');
