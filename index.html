@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div id="fx-container"></div>
     <div id="sparkle-layer"></div>
 
@@ -33,6 +34,15 @@
 
             <div id="celebration" class="hidden">
                 <p id="status" class="dark-text">Ye Jagah Thodi Dark Nahi Hai?? </p>
+                
+                <div id="music-screen" class="hidden">
+                    <p class="dark-text">Thode Gaane Vagera Ho Jaae? 🎵</p>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'Song 1', 'song1.mp3')">🎵 BLUE</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'Song 2', 'song2.mp3')">🎵 Lover</div>
+                    <div class="gift-item music-opt" onclick="selectSong(this, 'Song 3', 'song3.mp3')">🎵 Thousand Years</div>
+                    <button id="confirm-music" class="cute-btn small hidden" onclick="confirmMusic()">Confirm & Proceed ❤️</button>
+                </div>
+
                 <div id="stage"></div>
                 
                 <div id="meter-container" class="hidden">
@@ -46,6 +56,8 @@
             <button id="next-btn" class="hidden cute-btn" onclick="next()">Turn on the lights 🕯️</button>
         </div>
     </div>
+
+    <audio id="bg-music" loop></audio>
 
     <script src="script.js"></script>
 </body>
