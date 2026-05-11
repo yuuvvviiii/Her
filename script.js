@@ -23,7 +23,6 @@ function unlock() {
     }
 }
 
-// Logic to play song and start disc rotation
 function selectSong(el, name, url) {
     currentSongIndex = songData.findIndex(s => s.url === url);
     audio.src = url;
@@ -37,7 +36,15 @@ function selectSong(el, name, url) {
     }
 }
 
-// Auto-play next song
+// Function to stop music completely
+function stopMusic() {
+    audio.pause();
+    audio.currentTime = 0;
+    disc.classList.remove('playing');
+    document.getElementById('mini-menu').classList.remove('show');
+}
+
+// Autoplay Logic: When song finishes, play next
 audio.addEventListener('ended', function() {
     currentSongIndex++;
     if (currentSongIndex >= songData.length) currentSongIndex = 0;
@@ -50,18 +57,19 @@ function toggleMiniMenu() {
     const list = document.getElementById('dynamic-song-list');
     menu.classList.toggle('show');
     
-    if(list.innerHTML === "") {
-        songData.forEach(song => {
-            const item = document.createElement('div');
-            item.className = 'menu-song-item';
-            item.innerText = song.name;
-            item.onclick = () => {
-                selectSong(null, song.name, song.url);
-                menu.classList.remove('show');
-            };
-            list.appendChild(item);
-        });
-    }
+    // Always refresh list to keep stop button at top
+    list.innerHTML = `<button class="stop-btn" onclick="stopMusic()">Stop Music ⏹️</button>`;
+    
+    songData.forEach(song => {
+        const item = document.createElement('div');
+        item.className = 'menu-song-item';
+        item.innerText = song.name;
+        item.onclick = () => {
+            selectSong(null, song.name, song.url);
+            menu.classList.remove('show');
+        };
+        list.appendChild(item);
+    });
 }
 
 function confirmMusic() {
