@@ -202,3 +202,57 @@ function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
     setTimeout(() => document.getElementById('gift-overlay').classList.add('hidden'), 500);
 }
+// --- FLOATING PLAYER LOGIC ---
+
+function toggleMusicMenu() {
+    const menu = document.getElementById('mini-menu');
+    menu.classList.toggle('menu-hidden');
+}
+
+function changeSong(url) {
+    const audio = document.getElementById('bg-music');
+    const disc = document.getElementById('music-disc');
+    
+    audio.src = url;
+    audio.play();
+    
+    // Start rotation and update highlights
+    disc.classList.add('disc-rotating');
+    
+    // Sync the selection with the main music screen if it's visible
+    document.querySelectorAll('.music-opt').forEach(opt => {
+        if(opt.getAttribute('onclick').includes(url)) {
+            opt.classList.add('selected-item');
+        } else {
+            opt.classList.remove('selected-item');
+        }
+    });
+
+    // Close mini menu
+    toggleMusicMenu();
+}
+
+function stopMusic() {
+    const audio = document.getElementById('bg-music');
+    const disc = document.getElementById('music-disc');
+    
+    audio.pause();
+    disc.classList.remove('disc-rotating');
+    toggleMusicMenu();
+}
+
+// Close menu if clicking outside the player
+window.addEventListener('click', function(e) {
+    const container = document.getElementById('music-player-container');
+    const menu = document.getElementById('mini-menu');
+    if (!container.contains(e.target)) {
+        menu.classList.add('menu-hidden');
+    }
+});
+
+// Update the existing selectSong to start the disc spinning
+const originalSelectSong = selectSong;
+selectSong = function(el, name, url) {
+    originalSelectSong(el, name, url);
+    document.getElementById('music-disc').classList.add('disc-rotating');
+};
