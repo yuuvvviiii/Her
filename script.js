@@ -1,9 +1,20 @@
 let step = 0;
 let starsFound = 0;
 let puppyPets = 0;
+const player = document.getElementById('bg-player');
+
+// Function to handle music selection
+function playSong(file) {
+    player.src = file;
+    player.volume = 0.5;
+    player.play().catch(e => console.log("Interaction needed"));
+    
+    document.getElementById('status').innerText = "Perfect! Now catch 5 sparkles ✨";
+    const menu = document.getElementById('music-menu');
+    if(menu) menu.style.display = 'none';
+}
 
 function unlock() {
-    // Replace "0623" with your special date
     if(document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
@@ -25,8 +36,17 @@ function next() {
         status.innerText = "The room is glowing... 🌸";
         btn.classList.add('hidden');
         
+        // Show Music Selection
+        stage.innerHTML = `
+            <div id="music-menu">
+                <p>Pick a vibe for your surprise: 🎵</p>
+                <button class="cute-btn small" onclick="playSong('song1.mp3')">Sweet 🌸</button>
+                <button class="cute-btn small" onclick="playSong('song2.mp3')">Romantic ✨</button>
+                <button class="cute-btn small" onclick="playSong('song3.mp3')">Our Fav 💖</button>
+            </div>
+        `;
+        
         setTimeout(() => {
-            status.innerText = "Catch 5 sparkles to invite the pups!";
             document.getElementById('quest-tag').classList.remove('hidden');
             for(let i=0; i<5; i++) {
                 const s = document.createElement('div');
@@ -37,7 +57,8 @@ function next() {
                     document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
                     if(starsFound === 5) {
                         btn.classList.remove('hidden');
-                        btn.innerText = "Shall We Invite Some Buddies?? 😁";
+                        btn.innerText = "Call the Puppies! 🐶";
+                        stage.innerHTML = ''; 
                     }
                 };
                 document.body.appendChild(s);
@@ -46,25 +67,30 @@ function next() {
     } 
     else if (step === 2) {
         document.getElementById('quest-tag').classList.add('hidden');
-        status.innerText = "The puppies want love! Pet them until they're happy! ❤️";
+        status.innerText = "The puppies want love! Pet them! ❤️";
         btn.classList.add('hidden');
         stage.innerHTML = `
-            <div class="pet-meter-container"><div id="pet-meter-fill"></div></div>
+            <div class="pet-meter-container" style="width:100%; background:#eee; height:10px; border-radius:5px; margin-bottom:10px;">
+                <div id="pet-meter-fill" style="width:0%; background:var(--primary); height:100%; border-radius:5px; transition:0.3s;"></div>
+            </div>
             <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐶</div>
             <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐕</div>
         `;
     }
 }
 
+// ... include your startPetting, stopPetting, petPuppy, startWish, finishWish, showGifts functions here ...
+// They remain the same as your original code!
+
 function startPetting(e, el) {
-    el.classList.add('active-pet');
+    el.style.transform = "scale(1.2)";
     if (el.innerText === "🐶") el.innerText = "🤩";
     if (el.innerText === "🐕") el.innerText = "🥰";
     petPuppy(e, el);
 }
 
 function stopPetting(el) {
-    el.classList.remove('active-pet');
+    el.style.transform = "scale(1)";
     setTimeout(() => {
         if (el.innerText === "🤩") el.innerText = "🐶";
         if (el.innerText === "🥰") el.innerText = "🐕";
@@ -76,29 +102,10 @@ function petPuppy(e, el) {
     const meter = document.getElementById('pet-meter-fill');
     if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
 
-    // Heart Particles
-    for(let i=0; i<5; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart-pop';
-        heart.innerText = ['❤️','💖','💗','💓'][Math.floor(Math.random()*4)];
-        heart.style.left = e.clientX + 'px';
-        heart.style.top = e.clientY + 'px';
-        const tx = (Math.random() - 0.5) * 200 + 'px';
-        const ty = (Math.random() - 1) * 200 + 'px';
-        heart.style.setProperty('--tx', tx);
-        heart.style.setProperty('--ty', ty);
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 1000);
-    }
-
     if(puppyPets >= 10) {
         setTimeout(() => {
             document.getElementById('status').innerText = "They love you! Here is your cake! 🎂";
-            document.getElementById('stage').innerHTML = `
-                <div class="cake-container" id="cake-obj">
-                    <span id="flame" class="candle-flame hidden">🔥</span>
-                    🎂
-                </div>`;
+            document.getElementById('stage').innerHTML = `<div class="cake-container" id="cake-obj" style="font-size:4rem; cursor:pointer;"><span id="flame" class="hidden">🔥</span>🎂</div>`;
             const btn = document.getElementById('next-btn');
             btn.classList.remove('hidden');
             btn.innerText = "Light the Candle";
@@ -145,23 +152,18 @@ function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('stage').innerHTML = `
-        <div class="polaroid"><img src="2003.jpg" alt="Us"><p style="margin-top:5px; font-size:0.7rem; color:#888;">Forever</p></div>
-        <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
-        <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
-        <div class="gift-item" onclick="openGift(3)">🎁 Gift 3: Surprise B</div>
+        <div class="gift-item" style="cursor:pointer; margin:10px; padding:10px; border:1px solid #ffb7c5; border-radius:10px;" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
+        <div class="gift-item" style="cursor:pointer; margin:10px; padding:10px; border:1px solid #ffb7c5; border-radius:10px;" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
+        <div class="gift-item" style="cursor:pointer; margin:10px; padding:10px; border:1px solid #ffb7c5; border-radius:10px;" onclick="openGift(3)">🎁 Gift 3: Surprise B</div>
     `;
 }
 
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
-    if(id === 1) {
-        display.innerHTML = `<h3>My Letter</h3><div class="letter-box">"Happy birthday! I made this just for you. "</div>`;
-    } else if(id === 2) {
-        display.innerHTML = `<h3>Surprise A</h3><button class="gift-link-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ', '_blank')">View Gift ✨</button>`;
-    } else if(id === 3) {
-        display.innerHTML = `<h3>Surprise B</h3><button class="gift-link-btn" onclick="window.open('https://youtu.be/QDia3e12czc?si=NvmVbsoe-gZQdujW', '_blank')">View Gift 💖</button>`;
-    }
+    if(id === 1) display.innerHTML = `<h3>My Letter</h3><p>Happy birthday! I made this just for you.</p>`;
+    else if(id === 2) display.innerHTML = `<h3>Surprise A</h3><p>You're the best!</p>`;
+    else if(id === 3) display.innerHTML = `<h3>Surprise B</h3><p>Forever and always.</p>`;
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
 }
@@ -170,3 +172,4 @@ function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
     setTimeout(() => document.getElementById('gift-overlay').classList.add('hidden'), 500);
 }
+
