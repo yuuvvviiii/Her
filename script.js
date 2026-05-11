@@ -158,7 +158,7 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Wish Sent! Abhi Cake Kaate??";
+    document.getElementById('status').innerText = "Yummy 😋";
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
         const btn = document.getElementById('next-btn');
