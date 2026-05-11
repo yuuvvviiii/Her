@@ -3,6 +3,7 @@ let starsFound = 0;
 let puppyPets = 0;
 
 function unlock() {
+    // Replace "0623" with your actual date if needed
     if(document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
@@ -18,7 +19,7 @@ function selectSong(el, name, url) {
     audio.src = url;
     audio.play();
     
-    // Highlight choice
+    // Highlight selected song
     document.querySelectorAll('.music-opt').forEach(opt => opt.classList.remove('selected-item'));
     el.classList.add('selected-item');
     
@@ -66,7 +67,6 @@ function next() {
         status.innerText = "The room is glowing... 🌸";
         btn.classList.add('hidden');
         
-        // Show song choice after lights turn on
         setTimeout(() => {
             document.getElementById('music-screen').classList.remove('hidden');
         }, 1500);
@@ -159,12 +159,11 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    // Set the prompt to cut the cake
     document.getElementById('status').innerText = "Wish Sent! Ab Cake Kaate?? 🎂";
     
     document.getElementById('cake-obj').onclick = () => {
-        document.getElementById('cake-obj').innerHTML = "🍰"; // Changes cake to slice
-        document.getElementById('status').innerText = "Yummy 😋"; // Changes text ONLY when clicked
+        document.getElementById('cake-obj').innerHTML = "🍰";
+        document.getElementById('status').innerText = "Yummy 😋";
         
         const btn = document.getElementById('next-btn');
         btn.classList.remove('hidden');
