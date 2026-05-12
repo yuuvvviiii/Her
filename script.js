@@ -11,7 +11,7 @@ function unlock() {
         document.getElementById('celebration').classList.remove('hidden');
 
         document.getElementById('status').innerText =
-            "Access granted... loading memories 💭";
+            "Access granted... loading Surprises ✨";
 
         setTimeout(() => {
             document.getElementById('status').innerText =
