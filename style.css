@@ -302,14 +302,10 @@ body {
 
 .floating-disc {
     position: fixed !important;
-    bottom: 20px;
-    right: 20px;
-    font-size: 3rem !important;
+    bottom: 18px;
+    right: 18px;
     z-index: 9999;
-    background: rgba(255,255,255,0.92);
-    padding: 10px;
-    border-radius: 50%;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    transform: scale(0.7);
 }
 /* smaller floating music menu */
 
