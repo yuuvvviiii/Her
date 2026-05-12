@@ -105,14 +105,15 @@ function next() {
     }
 
     if (step === 1) {
-        document.body.classList.add('lights-on');
-        document.getElementById('main-card').classList.add('cute-ui');
-        status.innerText = "The room is glowing... 🌸";
-        btn.classList.add('hidden');
+    document.body.classList.add('lights-on');
+    document.getElementById('main-card').classList.add('cute-ui');
+    status.innerText = "The room is glowing... 🌸";
+    btn.classList.add('hidden');
 
-        setTimeout(() => {
-            document.getElementById('music-screen').classList.remove('hidden');
-        }, 1500);
+    setTimeout(() => {
+        document.getElementById('music-screen').classList.remove('hidden');
+        document.getElementById('confirm-music').style.display = "none";
+    }, 1500);
     }
 
     else if (step === 2) {
