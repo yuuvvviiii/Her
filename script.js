@@ -15,9 +15,9 @@ function unlock() {
 /* MUSIC FUNCTIONS */
 
 function toggleMusicMenu() {
-    document.getElementById('music-menu').classList.toggle('hidden');
+    const menu = document.getElementById('music-menu');
+    menu.classList.toggle('hidden');
 }
-
 function playMusic() {
     document.getElementById('bg-music').play();
 }
@@ -43,19 +43,19 @@ function selectSong(el, name, url) {
 
     el.classList.add('selected-item');
     document.getElementById('confirm-music').classList.remove('hidden');
-}
-
 function confirmMusic() {
-    // hide entire music selection section
-    document.getElementById('music-screen').classList.add('hidden');
+    // hide only the button + text, not whole music screen
+    document.getElementById('confirm-music').classList.add('hidden');
+
+    const musicText = document.querySelector('#music-screen p');
+    if (musicText) musicText.classList.add('hidden');
 
     // move disc to floating corner
     const disc = document.getElementById('music-disc');
-    disc.classList.remove('hidden');
     disc.classList.add('floating-disc');
 
-    // attach disc to body so it stays visible globally
-    document.body.appendChild(disc);
+    // keep menu hidden initially
+    document.getElementById('music-menu').classList.add('hidden');
 
     startSparkleQuest();
 }
