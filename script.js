@@ -44,17 +44,15 @@ function selectSong(el, name, url) {
     el.classList.add('selected-item');
     document.getElementById('confirm-music').classList.remove('hidden');
 function confirmMusic() {
-    // hide only the button + text, not whole music screen
     document.getElementById('confirm-music').classList.add('hidden');
 
     const musicText = document.querySelector('#music-screen p');
     if (musicText) musicText.classList.add('hidden');
 
-    // move disc to floating corner
-    const disc = document.getElementById('music-disc');
-    disc.classList.add('floating-disc');
+    document
+        .getElementById('floating-music-container')
+        .classList.add('floating-disc');
 
-    // keep menu hidden initially
     document.getElementById('music-menu').classList.add('hidden');
 
     startSparkleQuest();
