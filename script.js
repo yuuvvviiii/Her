@@ -38,21 +38,18 @@ function selectSong(el, name, url) {
     audio.src = url;
     audio.play();
 
-    document.querySelectorAll('.music-opt').forEach(opt =>
-        opt.classList.remove('selected-item')
-    );
+    document.querySelectorAll('.music-opt').forEach(opt => {
+        opt.classList.remove('selected-item');
+    });
 
     el.classList.add('selected-item');
-    document.getElementById('confirm-music').classList.remove('hidden');
+
+    document.getElementById('confirm-music').style.display = "block";
 }
 
 function confirmMusic() {
-    // Hide the selection UI immediately
-    document.getElementById('music-screen').classList.add('hidden'); 
-    document.getElementById('confirm-music').classList.add('hidden');
-
-    const musicText = document.querySelector('#music-screen p');
-    if (musicText) musicText.classList.add('hidden');
+    document.getElementById('music-screen').classList.add('hidden');
+    document.getElementById('confirm-music').style.display = "none";
 
     document
         .getElementById('floating-music-container')
