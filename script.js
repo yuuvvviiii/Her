@@ -1,10 +1,10 @@
 let step = 0;
 let starsFound = 0;
 let puppyPets = 0;
+let envelopeStage = 0;
 
 function unlock() {
     if (document.getElementById('pw').value === "0623") {
-
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
 
@@ -16,11 +16,11 @@ function unlock() {
                 "Ye Jagah Thodi Dark Nahi Hai??";
             document.getElementById('next-btn').classList.remove('hidden');
         }, 1800);
-
     } else {
         alert("Wrong code! Try again ❤️");
     }
 }
+
 /* MUSIC FUNCTIONS */
 function toggleMusicMenu() {
     document.getElementById('music-menu').classList.toggle('hidden');
@@ -50,23 +50,14 @@ function selectSong(el, name, url) {
     });
 
     el.classList.add('selected-item');
-    
-    // Show the confirm button when a song is picked
     document.getElementById('confirm-music').classList.remove('hidden');
 }
 
 function confirmMusic() {
-    // 1. Completely hide the setup screen and the confirm button
     document.getElementById('music-screen').classList.add('hidden');
     document.getElementById('confirm-music').classList.add('hidden');
-
-    // 2. Transform the music disc into the floating version
     document.getElementById('floating-music-container').classList.add('floating-disc');
-    
-    // 3. Make sure the song list is closed
     document.getElementById('music-menu').classList.add('hidden');
-
-    // 4. Start the next part of the surprise
     startSparkleQuest();
 }
 
@@ -89,7 +80,8 @@ function startSparkleQuest() {
             this.remove();
             starsFound++;
 
-            document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
+            document.getElementById('quest-tag').innerText =
+                `Sparkles: ${starsFound}/5`;
 
             if (starsFound === 5) {
                 btn.classList.remove('hidden');
@@ -109,7 +101,6 @@ function next() {
     const btn = document.getElementById('next-btn');
     const stage = document.getElementById('stage');
 
-    // Ensure music screen hides if we manually click next
     if (step >= 2) {
         document.getElementById('music-screen').classList.add('hidden');
         document.getElementById('confirm-music').classList.add('hidden');
@@ -123,24 +114,30 @@ function next() {
         btn.classList.add('hidden');
 
         setTimeout(() => {
-            // Only show music screen if we haven't already confirmed it
-            if (!document.getElementById('floating-music-container').classList.contains('floating-disc')) {
-                document.getElementById('music-screen').classList.remove('hidden');
+            if (!document.getElementById('floating-music-container')
+                .classList.contains('floating-disc')) {
+                document.getElementById('music-screen')
+                    .classList.remove('hidden');
             }
         }, 1500);
     }
 
     else if (step === 2) {
         document.getElementById('quest-tag').classList.add('hidden');
-        status.innerText = "The puppies want love! Pet them until they're happy! ❤️";
+        status.innerText =
+            "The puppies want love! Pet them until they're happy! ❤️";
         btn.classList.add('hidden');
 
         stage.innerHTML = `
             <div class="pet-meter-container">
                 <div id="pet-meter-fill"></div>
             </div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐶</div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐕</div>
+            <div class="puppy"
+                 onpointerdown="startPetting(event, this)"
+                 onpointerup="stopPetting(this)">🐶</div>
+            <div class="puppy"
+                 onpointerdown="startPetting(event, this)"
+                 onpointerup="stopPetting(this)">🐕</div>
         `;
     }
 }
@@ -150,53 +147,71 @@ function startPetting(e, el) {
     el.classList.add('active-pet');
     if (el.innerText === "🐶") el.innerText = "🤩";
     if (el.innerText === "🐕") el.innerText = "🥰";
-    petPuppy(e, el);
+    petPuppy(e);
 }
 
 function stopPetting(el) {
     el.classList.remove('active-pet');
+
     setTimeout(() => {
         if (el.innerText === "🤩") el.innerText = "🐶";
         if (el.innerText === "🥰") el.innerText = "🐕";
     }, 300);
 }
 
-function petPuppy(e, el) {
+function petPuppy(e) {
     puppyPets++;
+
     const meter = document.getElementById('pet-meter-fill');
     if (meter) {
-        meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
+        meter.style.width =
+            Math.min((puppyPets / 10) * 100, 100) + "%";
     }
 
     for (let i = 0; i < 5; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart-pop';
-        heart.innerText = ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
+        heart.innerText =
+            ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
+
         heart.style.left = e.clientX + 'px';
         heart.style.top = e.clientY + 'px';
-        heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-        heart.style.setProperty('--ty', (Math.random() - 1) * 200 + 'px');
+        heart.style.setProperty('--tx',
+            (Math.random() - 0.5) * 200 + 'px');
+        heart.style.setProperty('--ty',
+            (Math.random() - 1) * 200 + 'px');
+
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 1000);
     }
 
     if (puppyPets >= 10) {
         setTimeout(() => {
-            document.getElementById('status').innerText = "Ye Lo Aapke Liye Cake!!🎂";
+            document.getElementById('status').innerText =
+                "Ye Lo Aapke Liye Cake!!🎂";
+
             document.getElementById('stage').innerHTML = `
                 <div class="cake-container" id="cake-obj">
                     <span id="flame" class="candle-flame hidden">🔥</span>
                     🎂
                 </div>
             `;
+
             const btn = document.getElementById('next-btn');
             btn.classList.remove('hidden');
             btn.innerText = "Light the Candle";
+
             btn.onclick = () => {
-                document.getElementById('flame').classList.remove('hidden');
-                document.getElementById('status').innerText = "Make a wish! Hold the button.";
+                document.getElementById('flame')
+                    .classList.remove('hidden');
+
+                document.getElementById('status').innerText =
+                    "Make a wish! Hold the button.";
+
                 btn.innerText = "HOLD TO WISH ✨";
-                document.getElementById('meter-container').classList.remove('hidden');
+                document.getElementById('meter-container')
+                    .classList.remove('hidden');
+
                 startWish();
             };
         }, 500);
@@ -208,10 +223,13 @@ function startWish() {
     let progress = 0;
     let timer;
     const btn = document.getElementById('next-btn');
+
     btn.onpointerdown = () => {
         timer = setInterval(() => {
             progress += 2;
-            document.getElementById('meter-fill').style.width = progress + "%";
+            document.getElementById('meter-fill').style.width =
+                progress + "%";
+
             if (progress >= 100) {
                 clearInterval(timer);
                 btn.classList.add('hidden');
@@ -219,15 +237,19 @@ function startWish() {
             }
         }, 50);
     };
+
     btn.onpointerup = () => clearInterval(timer);
 }
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText = "Wish Sent! Ab Cake Kaate?? 🎂";
+    document.getElementById('status').innerText =
+        "Wish Sent! Ab Cake Kaate?? 🎂";
+
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
         document.getElementById('status').innerText = "Yummy 😋";
+
         const btn = document.getElementById('next-btn');
         btn.classList.remove('hidden');
         btn.innerText = "See My Gifts 🎁";
@@ -239,18 +261,28 @@ function finishWish() {
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
+
     document.getElementById('stage').innerHTML = `
         <div class="polaroid">
             <img src="2344.jpg" alt="Us">
-            <p style="margin-top:5px; font-size:0.7rem; color:#888;">Forever</p>
+            <p style="margin-top:5px; font-size:0.7rem; color:#888;">
+                Forever
+            </p>
         </div>
-        <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
-        <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
-        <div class="gift-item" onclick="openGift(3)">🎁 Gift 3: Surprise B</div>
+
+        <div class="gift-item" onclick="openGift(1)">
+            🎁 Gift 1: A Letter
+        </div>
+
+        <div class="gift-item" onclick="openGift(2)">
+            🎁 Gift 2: Surprise A
+        </div>
+
+        <div class="gift-item" onclick="openGift(3)">
+            🎁 Gift 3: Surprise B
+        </div>
     `;
 }
-
-let envelopeStage = 0;
 
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
@@ -260,10 +292,11 @@ function openGift(id) {
         envelopeStage = 0;
 
         display.innerHTML = `
-            <div id="envelope-wrapper" style="position:relative; width:220px; margin:auto;">
+            <div id="envelope-wrapper"
+                 style="position:relative; width:220px; margin:auto;">
 
                 <div id="hidden-letter"
-                    style="
+                     style="
                         position:absolute;
                         top:55px;
                         left:50%;
@@ -279,7 +312,7 @@ function openGift(id) {
                         z-index:1;
                         transition:all 1s ease;
                         opacity:0;
-                    ">
+                     ">
                     Happy Birthday 🌸<br><br>
                     I wanted to make something different for you,
                     so I built this tiny surprise just for you ❤️<br><br>
@@ -288,19 +321,21 @@ function openGift(id) {
                 </div>
 
                 <div id="envelope-box"
-                    onclick="openEnvelopeStep()"
-                    style="
+                     onclick="openEnvelopeStep()"
+                     style="
                         cursor:pointer;
                         font-size:6rem;
                         position:relative;
                         z-index:2;
                         transition:0.4s;
-                    ">
+                     ">
                     ✉️
                 </div>
             </div>
 
-            <p style="color:#7e57c2;">Tap to open 💌</p>
+            <p id="letter-hint" style="color:#7e57c2;">
+                Tap to open 💌
+            </p>
         `;
     }
 
@@ -308,7 +343,7 @@ function openGift(id) {
         display.innerHTML = `
             <h3>Surprise A</h3>
             <button class="cute-btn"
-            onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
+                onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
                 View Gift ✨
             </button>
         `;
@@ -318,7 +353,7 @@ function openGift(id) {
         display.innerHTML = `
             <h3>Surprise B</h3>
             <button class="cute-btn"
-            onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
+                onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
                 View Gift 💖
             </button>
         `;
@@ -333,22 +368,28 @@ function openEnvelopeStep() {
 
     const envelope = document.getElementById('envelope-box');
     const letter = document.getElementById('hidden-letter');
+    const hint = document.getElementById('letter-hint');
 
     if (envelopeStage === 1) {
         envelope.innerHTML = "📩";
-        document.querySelector('#gift-display p').innerText = "Tap again ✨";
+        hint.innerText = "Tap again ✨";
     }
 
     else if (envelopeStage === 2) {
         letter.style.opacity = "1";
         letter.style.top = "-40px";
         letter.style.transform = "translateX(-50%) scale(1.05)";
-
         envelope.style.transform = "translateY(40px)";
-        document.querySelector('#gift-display p').innerText = "";
+        hint.innerText = "";
     }
 }
+
 function closeGift() {
-    document.getElementById('gift-overlay').classList.remove('visible');
-    setTimeout(() => { document.getElementById('gift-overlay').classList.add('hidden'); }, 500);
+    document.getElementById('gift-overlay')
+        .classList.remove('visible');
+
+    setTimeout(() => {
+        document.getElementById('gift-overlay')
+            .classList.add('hidden');
+    }, 500);
 }
