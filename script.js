@@ -18,6 +18,7 @@ function toggleMusicMenu() {
     const menu = document.getElementById('music-menu');
     menu.classList.toggle('hidden');
 }
+
 function playMusic() {
     document.getElementById('bg-music').play();
 }
@@ -43,6 +44,8 @@ function selectSong(el, name, url) {
 
     el.classList.add('selected-item');
     document.getElementById('confirm-music').classList.remove('hidden');
+}
+
 function confirmMusic() {
     document.getElementById('confirm-music').classList.add('hidden');
 
