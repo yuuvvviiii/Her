@@ -47,51 +47,44 @@ function selectSong(el, name, url) {
 }
 
 function confirmMusic() {
-    // hide confirm button
+    // Hide the selection UI immediately
+    document.getElementById('music-screen').classList.add('hidden'); 
     document.getElementById('confirm-music').classList.add('hidden');
 
-    // hide heading text
     const musicText = document.querySelector('#music-screen p');
-    if (musicText) musicText.style.display = "none";
+    if (musicText) musicText.classList.add('hidden');
 
-    // hide sparkle quest text completely
-    document.getElementById('quest-tag').classList.add('hidden');
+    document
+        .getElementById('floating-music-container')
+        .classList.add('floating-disc');
 
-    // move disc to corner + shrink it
-    const container = document.getElementById('floating-music-container');
-    container.classList.add('floating-disc');
-
-    const disc = document.getElementById('music-disc');
-    disc.style.fontSize = "2.2rem";
-    disc.style.margin = "0";
-
-    // close menu after confirm
     document.getElementById('music-menu').classList.add('hidden');
 
     startSparkleQuest();
 }
+
+/* SPARKLE QUEST */
 
 function startSparkleQuest() {
     const status = document.getElementById('status');
     const btn = document.getElementById('next-btn');
 
     status.innerText = "Catch 5 sparkles!!!!✨";
+    document.getElementById('quest-tag').classList.remove('hidden');
 
-    // keep sparkle counter hidden
-    document.getElementById('quest-tag').classList.add('hidden');
-
-    for (let i = 0; i < 5; i++) {
+    for(let i = 0; i < 5; i++) {
         const s = document.createElement('div');
         s.className = 'star';
         s.innerText = '✨';
         s.style.left = Math.random() * 70 + 15 + 'vw';
         s.style.top = Math.random() * 60 + 20 + 'vh';
 
-        s.onclick = function () {
+        s.onclick = function() {
             this.remove();
             starsFound++;
+            document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
 
-            if (starsFound === 5) {
+            if(starsFound === 5) {
                 btn.classList.remove('hidden');
                 btn.innerText = "Kuch Cuties Ko Invite Kare??😁";
             }
@@ -100,6 +93,7 @@ function startSparkleQuest() {
         document.body.appendChild(s);
     }
 }
+
 /* MAIN FLOW */
 
 function next() {
@@ -107,6 +101,11 @@ function next() {
     const status = document.getElementById('status');
     const btn = document.getElementById('next-btn');
     const stage = document.getElementById('stage');
+
+    // Force hide music selection screen if moving to step 2+
+    if(step >= 2) {
+        document.getElementById('music-screen').classList.add('hidden');
+    }
 
     if (step === 1) {
         document.body.classList.add('lights-on');
@@ -274,12 +273,12 @@ function openGift(id) {
         display.innerHTML = `<h3>My Letter</h3><div class="letter-box">"Happy birthday! I made this just for you."</div>`;
     } else if(id === 2) {
         display.innerHTML = `<h3>Surprise A</h3>
-        <button class="gift-link-btn"
+        <button class="cute-btn"
         onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
         View Gift ✨</button>`;
     } else if(id === 3) {
         display.innerHTML = `<h3>Surprise B</h3>
-        <button class="gift-link-btn"
+        <button class="cute-btn"
         onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
         View Gift 💖</button>`;
     }
