@@ -387,16 +387,26 @@ function openEnvelopeStep() {
     const letter = document.getElementById('hidden-letter');
     const hint = document.getElementById('letter-hint');
 
+    if (!envelope || !letter) return;
+
     if (envelopeStage === 1) {
         envelope.innerHTML = "📩";
         hint.innerText = "Tap again ✨";
     }
 
     else if (envelopeStage === 2) {
+        // show letter coming out
         letter.style.opacity = "1";
         letter.style.top = "-40px";
         letter.style.transform = "translateX(-50%) scale(1.05)";
-        envelope.style.transform = "translateY(40px)";
+
+        // fully remove envelope after animation starts
+        setTimeout(() => {
+            envelope.style.opacity = "0";
+            envelope.style.pointerEvents = "none";
+            envelope.style.transform = "translateY(80px) scale(0.7)";
+        }, 200);
+
         hint.innerText = "";
     }
 }
