@@ -4,14 +4,23 @@ let puppyPets = 0;
 
 function unlock() {
     if (document.getElementById('pw').value === "0623") {
+
         document.getElementById('step-0').classList.add('hidden');
         document.getElementById('celebration').classList.remove('hidden');
-        document.getElementById('next-btn').classList.remove('hidden');
+
+        document.getElementById('status').innerText =
+            "Access granted... loading memories 💭";
+
+        setTimeout(() => {
+            document.getElementById('status').innerText =
+                "Ye Jagah Thodi Dark Nahi Hai??";
+            document.getElementById('next-btn').classList.remove('hidden');
+        }, 1800);
+
     } else {
         alert("Wrong code! Try again ❤️");
     }
 }
-
 /* MUSIC FUNCTIONS */
 function toggleMusicMenu() {
     document.getElementById('music-menu').classList.toggle('hidden');
@@ -244,15 +253,64 @@ function showGifts() {
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
+
     if (id === 1) {
-        display.innerHTML = `<h3>My Letter</h3><div class="letter-box">"Happy birthday! I made this just for you."</div>`;
+        display.innerHTML = `
+            <h3>My Letter 💌</h3>
+            <div class="letter-box">
+                Happy Birthday 🌸<br><br>
+                I wanted to give you something different this time,
+                so I made this little interactive surprise just for you ❤️<br><br>
+                Every click here has a tiny piece of my effort,
+                thought and time in it.<br><br>
+                Hope today makes you smile a lot ✨
+            </div>
+        `;
+        createConfetti();
+
     } else if (id === 2) {
-        display.innerHTML = `<h3>Surprise A</h3><button class="cute-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">View Gift ✨</button>`;
+        display.innerHTML = `
+            <h3>Surprise A</h3>
+            <button class="cute-btn"
+            onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
+            View Gift ✨
+            </button>
+        `;
+
     } else if (id === 3) {
-        display.innerHTML = `<h3>Surprise B</h3><button class="cute-btn" onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">View Gift 💖</button>`;
+        display.innerHTML = `
+            <h3>Surprise B</h3>
+            <button class="cute-btn"
+            onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
+            View Gift 💖
+            </button>
+        `;
     }
+
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
+}
+
+function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+        const conf = document.createElement('div');
+
+        conf.innerText = ['🎉', '✨', '💖', '🌸'][Math.floor(Math.random() * 4)];
+        conf.style.position = 'fixed';
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.top = '-20px';
+        conf.style.fontSize = '2rem';
+        conf.style.zIndex = '9999';
+        conf.style.transition = '4s linear';
+
+        document.body.appendChild(conf);
+
+        setTimeout(() => {
+            conf.style.top = '110vh';
+        }, 50);
+
+        setTimeout(() => conf.remove(), 4000);
+    }
 }
 
 function closeGift() {
