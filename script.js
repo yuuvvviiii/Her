@@ -47,41 +47,51 @@ function selectSong(el, name, url) {
 }
 
 function confirmMusic() {
+    // hide confirm button
     document.getElementById('confirm-music').classList.add('hidden');
 
+    // hide heading text
     const musicText = document.querySelector('#music-screen p');
-    if (musicText) musicText.classList.add('hidden');
+    if (musicText) musicText.style.display = "none";
 
-    document
-        .getElementById('floating-music-container')
-        .classList.add('floating-disc');
+    // hide sparkle quest text completely
+    document.getElementById('quest-tag').classList.add('hidden');
 
+    // move disc to corner + shrink it
+    const container = document.getElementById('floating-music-container');
+    container.classList.add('floating-disc');
+
+    const disc = document.getElementById('music-disc');
+    disc.style.fontSize = "2.2rem";
+    disc.style.margin = "0";
+
+    // close menu after confirm
     document.getElementById('music-menu').classList.add('hidden');
 
     startSparkleQuest();
 }
-/* SPARKLE QUEST */
 
 function startSparkleQuest() {
     const status = document.getElementById('status');
     const btn = document.getElementById('next-btn');
 
     status.innerText = "Catch 5 sparkles!!!!✨";
-    document.getElementById('quest-tag').classList.remove('hidden');
 
-    for(let i = 0; i < 5; i++) {
+    // keep sparkle counter hidden
+    document.getElementById('quest-tag').classList.add('hidden');
+
+    for (let i = 0; i < 5; i++) {
         const s = document.createElement('div');
         s.className = 'star';
         s.innerText = '✨';
         s.style.left = Math.random() * 70 + 15 + 'vw';
         s.style.top = Math.random() * 60 + 20 + 'vh';
 
-        s.onclick = function() {
+        s.onclick = function () {
             this.remove();
             starsFound++;
-            document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
 
-            if(starsFound === 5) {
+            if (starsFound === 5) {
                 btn.classList.remove('hidden');
                 btn.innerText = "Kuch Cuties Ko Invite Kare??😁";
             }
@@ -90,7 +100,6 @@ function startSparkleQuest() {
         document.body.appendChild(s);
     }
 }
-
 /* MAIN FLOW */
 
 function next() {
