@@ -49,6 +49,9 @@ function confirmMusic() {
     document.getElementById('music-menu').classList.add('hidden');
     document.getElementById('confirm-music').classList.add('hidden');
 
+    const musicText = document.querySelector('#music-screen p');
+    if (musicText) musicText.classList.add('hidden');
+
     const disc = document.getElementById('music-disc');
     disc.classList.add('floating-disc');
 
