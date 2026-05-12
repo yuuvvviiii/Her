@@ -250,39 +250,76 @@ function showGifts() {
     `;
 }
 
+let envelopeStage = 0;
+
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
 
     if (id === 1) {
-        display.innerHTML = `
-            <h3>My Letter 💌</h3>
-            <div class="letter-box">
-                Happy Birthday 🌸<br><br>
-                I wanted to give you something different this time,
-                so I made this little interactive surprise just for you ❤️<br><br>
-                Every click here has a tiny piece of my effort,
-                thought and time in it.<br><br>
-                Hope today makes you smile a lot ✨
-            </div>
-        `;
-        createConfetti();
+        envelopeStage = 0;
 
-    } else if (id === 2) {
+        display.innerHTML = `
+            <div id="envelope-wrapper" style="position:relative; width:220px; margin:auto;">
+
+                <div id="hidden-letter"
+                    style="
+                        position:absolute;
+                        top:55px;
+                        left:50%;
+                        transform:translateX(-50%);
+                        width:180px;
+                        background:white;
+                        padding:15px;
+                        border-radius:12px;
+                        box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                        color:#5d4037;
+                        font-size:0.9rem;
+                        line-height:1.5;
+                        z-index:1;
+                        transition:all 1s ease;
+                        opacity:0;
+                    ">
+                    Happy Birthday 🌸<br><br>
+                    I wanted to make something different for you,
+                    so I built this tiny surprise just for you ❤️<br><br>
+                    Every click here has a bit of my effort and thought.<br><br>
+                    Hope today makes you smile a lot ✨
+                </div>
+
+                <div id="envelope-box"
+                    onclick="openEnvelopeStep()"
+                    style="
+                        cursor:pointer;
+                        font-size:6rem;
+                        position:relative;
+                        z-index:2;
+                        transition:0.4s;
+                    ">
+                    ✉️
+                </div>
+            </div>
+
+            <p style="color:#7e57c2;">Tap to open 💌</p>
+        `;
+    }
+
+    else if (id === 2) {
         display.innerHTML = `
             <h3>Surprise A</h3>
             <button class="cute-btn"
             onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
-            View Gift ✨
+                View Gift ✨
             </button>
         `;
+    }
 
-    } else if (id === 3) {
+    else if (id === 3) {
         display.innerHTML = `
             <h3>Surprise B</h3>
             <button class="cute-btn"
             onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
-            View Gift 💖
+                View Gift 💖
             </button>
         `;
     }
@@ -291,28 +328,26 @@ function openGift(id) {
     setTimeout(() => overlay.classList.add('visible'), 10);
 }
 
-function createConfetti() {
-    for (let i = 0; i < 60; i++) {
-        const conf = document.createElement('div');
+function openEnvelopeStep() {
+    envelopeStage++;
 
-        conf.innerText = ['🎉', '✨', '💖', '🌸'][Math.floor(Math.random() * 4)];
-        conf.style.position = 'fixed';
-        conf.style.left = Math.random() * 100 + 'vw';
-        conf.style.top = '-20px';
-        conf.style.fontSize = '2rem';
-        conf.style.zIndex = '9999';
-        conf.style.transition = '4s linear';
+    const envelope = document.getElementById('envelope-box');
+    const letter = document.getElementById('hidden-letter');
 
-        document.body.appendChild(conf);
+    if (envelopeStage === 1) {
+        envelope.innerHTML = "📩";
+        document.querySelector('#gift-display p').innerText = "Tap again ✨";
+    }
 
-        setTimeout(() => {
-            conf.style.top = '110vh';
-        }, 50);
+    else if (envelopeStage === 2) {
+        letter.style.opacity = "1";
+        letter.style.top = "-40px";
+        letter.style.transform = "translateX(-50%) scale(1.05)";
 
-        setTimeout(() => conf.remove(), 4000);
+        envelope.style.transform = "translateY(40px)";
+        document.querySelector('#gift-display p').innerText = "";
     }
 }
-
 function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
     setTimeout(() => { document.getElementById('gift-overlay').classList.add('hidden'); }, 500);
