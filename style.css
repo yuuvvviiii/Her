@@ -311,3 +311,28 @@ body {
     border-radius: 50%;
     box-shadow: 0 6px 18px rgba(0,0,0,0.18);
 }
+/* smaller floating music menu */
+
+.floating-disc #music-menu {
+    width: 180px;
+    padding: 10px;
+    margin-top: 8px;
+    border-radius: 16px;
+}
+
+.floating-disc .gift-item {
+    padding: 8px;
+    margin: 6px 0;
+    font-size: 0.75rem;
+    border-radius: 12px;
+}
+
+.floating-disc .music-controls {
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.floating-disc .music-controls button {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+}
