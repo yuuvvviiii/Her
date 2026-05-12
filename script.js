@@ -11,7 +11,7 @@ function unlock() {
         document.getElementById('celebration').classList.remove('hidden');
 
         document.getElementById('status').innerText =
-            "Access granted... loading Surprises ✨";
+            "Access granted... loading memories 💭";
 
         setTimeout(() => {
             document.getElementById('status').innerText =
@@ -55,11 +55,15 @@ function selectSong(el, name, url) {
     document.getElementById('confirm-music').classList.remove('hidden');
 }
 
+/* FIXED DISC LOGIC */
 function confirmMusic() {
     document.getElementById('music-screen').classList.add('hidden');
     document.getElementById('confirm-music').classList.add('hidden');
-    document.getElementById('floating-music-container').classList.add('floating-disc');
     document.getElementById('music-menu').classList.add('hidden');
+
+    // 🔥 FIX: apply floating to the ACTUAL disc
+    const disc = document.getElementById('music-disc');
+    disc.classList.add('floating-disc');
 
     startSparkleQuest();
 }
@@ -117,7 +121,7 @@ function next() {
         btn.classList.add('hidden');
 
         setTimeout(() => {
-            if (!document.getElementById('floating-music-container')
+            if (!document.getElementById('music-disc')
                 .classList.contains('floating-disc')) {
                 document.getElementById('music-screen').classList.remove('hidden');
             }
@@ -134,8 +138,8 @@ function next() {
             <div class="pet-meter-container">
                 <div id="pet-meter-fill"></div>
             </div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐶</div>
-            <div class="puppy" onpointerdown="startPetting(event, this)" onpointerup="stopPetting(this)">🐕</div>
+            <div class="puppy" onpointerdown="startPetting(event,this)" onpointerup="stopPetting(this)">🐶</div>
+            <div class="puppy" onpointerdown="startPetting(event,this)" onpointerup="stopPetting(this)">🐕</div>
         `;
     }
 }
@@ -150,7 +154,6 @@ function startPetting(e, el) {
 
 function stopPetting(el) {
     el.classList.remove('active-pet');
-
     setTimeout(() => {
         if (el.innerText === "🤩") el.innerText = "🐶";
         if (el.innerText === "🥰") el.innerText = "🐕";
@@ -163,21 +166,6 @@ function petPuppy(e) {
     const meter = document.getElementById('pet-meter-fill');
     if (meter) {
         meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
-    }
-
-    for (let i = 0; i < 5; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart-pop';
-        heart.innerText =
-            ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
-
-        heart.style.left = e.clientX + 'px';
-        heart.style.top = e.clientY + 'px';
-        heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-        heart.style.setProperty('--ty', (Math.random() - 1) * 200 + 'px');
-
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 1000);
     }
 
     if (puppyPets >= 10) {
@@ -245,9 +233,10 @@ function finishWish() {
     };
 }
 
-/* GIFTS */
+/* GIFTS + FINAL FLOW */
 function showGifts() {
     openedGifts = [];
+
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
 
@@ -265,9 +254,7 @@ function showGifts() {
 }
 
 function checkGiftProgress(id) {
-    if (!openedGifts.includes(id)) {
-        openedGifts.push(id);
-    }
+    if (!openedGifts.includes(id)) openedGifts.push(id);
 
     if (
         openedGifts.includes(1) &&
@@ -302,6 +289,9 @@ function startFinalCountdown() {
     }, 1000);
 }
 
+/* ENVELOPE */
+let envelopeStage = 0;
+
 function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
@@ -313,41 +303,20 @@ function openGift(id) {
 
         display.innerHTML = `
             <div id="envelope-wrapper" style="position:relative; width:220px; margin:auto;">
-
                 <div id="hidden-letter"
-                    style="
-                        position:absolute;
-                        top:55px;
-                        left:50%;
-                        transform:translateX(-50%);
-                        width:180px;
-                        background:white;
-                        padding:15px;
-                        border-radius:12px;
-                        box-shadow:0 8px 20px rgba(0,0,0,0.15);
-                        color:#5d4037;
-                        font-size:0.9rem;
-                        line-height:1.5;
-                        z-index:1;
-                        transition:all 1s ease;
-                        opacity:0;
-                    ">
+                    style="position:absolute; top:55px; left:50%;
+                    transform:translateX(-50%);
+                    width:180px; background:white; padding:15px;
+                    border-radius:12px; opacity:0;
+                    transition:all 1s ease;">
                     Happy Birthday 🌸<br><br>
-                    I wanted to make something different for you,
-                    so I built this tiny surprise just for you ❤️<br><br>
-                    Every click here has a bit of my effort and thought.<br><br>
-                    Hope today makes you smile a lot ✨
+                    I made this just for you ❤️<br><br>
+                    Hope it makes you smile ✨
                 </div>
 
                 <div id="envelope-box"
                     onclick="openEnvelopeStep()"
-                    style="
-                        cursor:pointer;
-                        font-size:6rem;
-                        position:relative;
-                        z-index:2;
-                        transition:0.4s;
-                    ">
+                    style="font-size:6rem; cursor:pointer;">
                     ✉️
                 </div>
             </div>
@@ -368,11 +337,8 @@ function openGift(id) {
 
     else if (id === 3) {
         display.innerHTML = `
-            <h3>Surprise B</h3>
-            <button class="cute-btn"
-                onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
-                View Gift 💖
-            </button>
+            <h3>Final Gift 💖</h3>
+            <p>You made it ❤️</p>
         `;
     }
 
@@ -387,34 +353,23 @@ function openEnvelopeStep() {
     const letter = document.getElementById('hidden-letter');
     const hint = document.getElementById('letter-hint');
 
-    if (!envelope || !letter) return;
-
     if (envelopeStage === 1) {
         envelope.innerHTML = "📩";
         hint.innerText = "Tap again ✨";
     }
 
     else if (envelopeStage === 2) {
-        // show letter coming out
         letter.style.opacity = "1";
         letter.style.top = "-40px";
-        letter.style.transform = "translateX(-50%) scale(1.05)";
-
-        // fully remove envelope after animation starts
-        setTimeout(() => {
-            envelope.style.opacity = "0";
-            envelope.style.pointerEvents = "none";
-            envelope.style.transform = "translateY(80px) scale(0.7)";
-        }, 200);
-
+        envelope.style.opacity = "0";
+        envelope.style.pointerEvents = "none";
         hint.innerText = "";
     }
 }
 
 function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
-
     setTimeout(() => {
         document.getElementById('gift-overlay').classList.add('hidden');
     }, 500);
-}
+                  }
