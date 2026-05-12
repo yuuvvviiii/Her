@@ -113,7 +113,6 @@ body {
 }
 
 /* OVERLAY */
-
 .overlay {
     position: fixed;
     top: 0;
@@ -142,7 +141,6 @@ body {
 }
 
 /* METER */
-
 #meter-fill {
     width: 0%;
     height: 12px;
@@ -168,7 +166,6 @@ body {
 }
 
 /* PUPPIES */
-
 .puppy {
     font-size: 4rem;
     cursor: pointer;
@@ -183,7 +180,6 @@ body {
 }
 
 /* HEARTS */
-
 .heart-pop {
     position: absolute;
     pointer-events: none;
@@ -193,18 +189,11 @@ body {
 }
 
 @keyframes heartFly {
-    0% {
-        transform: translate(0,0) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(var(--tx), var(--ty)) scale(0.5);
-        opacity: 0;
-    }
+    0% { transform: translate(0,0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0.5); opacity: 0; }
 }
 
 /* CAKE */
-
 .cake-container {
     font-size: 5rem;
     cursor: pointer;
@@ -222,18 +211,11 @@ body {
 }
 
 @keyframes flicker {
-    from {
-        opacity: 0.8;
-        transform: translateX(-50%) scale(1);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(-50%) scale(1.2);
-    }
+    from { opacity: 0.8; transform: translateX(-50%) scale(1); }
+    to { opacity: 1; transform: translateX(-50%) scale(1.2); }
 }
 
 /* POLAROID */
-
 .polaroid {
     background: white;
     padding: 8px 8px 30px 8px;
@@ -250,7 +232,6 @@ body {
 }
 
 /* MUSIC DISC */
-
 #music-disc {
     font-size: 4rem;
     cursor: pointer;
@@ -260,9 +241,7 @@ body {
     transition: transform 0.3s ease;
 }
 
-#music-disc:hover {
-    transform: scale(1.1);
-}
+#music-disc:hover { transform: scale(1.1); }
 
 @keyframes spinDisc {
     from { transform: rotate(0deg); }
@@ -275,7 +254,6 @@ body {
     border-radius: 20px;
     margin-top: 15px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    /* Adjusted to cover roughly 1/4 of the card area */
     width: 100%; 
     max-height: 250px;
     overflow-y: auto;
@@ -316,38 +294,11 @@ body {
     box-shadow: 0 6px 18px rgba(0,0,0,0.18);
 }
 
-/* Updated mini menu to cover 1/4 of the code/screen area */
 .floating-disc #music-menu {
-    width: 50vw;        /* 50% width of screen */
-    height: 50vh;       /* 50% height of screen */
-    /* Together (0.5 * 0.5) = 0.25 (1/4) of the total screen area */
-    max-width: 300px;   /* Safety cap for desktop */
-    max-height: 400px;  /* Safety cap for desktop */
-    padding: 15px;
-    margin-top: 8px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    width: 250px;
+    max-height: 300px;
 }
 
-.floating-disc .gift-item {
-    padding: 12px;
-    margin: 8px 0;
-    font-size: 0.9rem;
-    border-radius: 12px;
-}
+/* FIX: I removed the ID selector that was forcing 'display: none' on the button. 
+   The .hidden class will now handle it correctly via JS. */
 
-.floating-disc .music-controls {
-    gap: 10px;
-    margin-top: auto; /* Pushes controls to bottom of the 1/4 area */
-    padding-bottom: 10px;
-}
-
-.floating-disc .music-controls button {
-    padding: 10px 12px;
-    font-size: 1rem;
-}
-#confirm-music {
-    display: none;
-}
