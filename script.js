@@ -46,14 +46,16 @@ function selectSong(el, name, url) {
 }
 
 function confirmMusic() {
-    document.getElementById('music-menu').classList.add('hidden');
-    document.getElementById('confirm-music').classList.add('hidden');
+    // hide entire music selection section
+    document.getElementById('music-screen').classList.add('hidden');
 
-    const musicText = document.querySelector('#music-screen p');
-    if (musicText) musicText.classList.add('hidden');
-
+    // move disc to floating corner
     const disc = document.getElementById('music-disc');
+    disc.classList.remove('hidden');
     disc.classList.add('floating-disc');
+
+    // attach disc to body so it stays visible globally
+    document.body.appendChild(disc);
 
     startSparkleQuest();
 }
