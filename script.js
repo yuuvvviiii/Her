@@ -46,7 +46,11 @@ function selectSong(el, name, url) {
 }
 
 function confirmMusic() {
-    document.getElementById('music-screen').classList.add('hidden');
+    document.getElementById('music-menu').classList.add('hidden');
+
+    const disc = document.getElementById('music-disc');
+    disc.classList.add('floating-disc');
+
     startSparkleQuest();
 }
 
@@ -59,12 +63,12 @@ function startSparkleQuest() {
     status.innerText = "Catch 5 sparkles!!!!✨";
     document.getElementById('quest-tag').classList.remove('hidden');
 
-    for(let i=0; i<5; i++) {
+    for(let i = 0; i < 5; i++) {
         const s = document.createElement('div');
         s.className = 'star';
         s.innerText = '✨';
-        s.style.left = Math.random()*70+15 + 'vw';
-        s.style.top = Math.random()*60+20 + 'vh';
+        s.style.left = Math.random() * 70 + 15 + 'vw';
+        s.style.top = Math.random() * 60 + 20 + 'vh';
 
         s.onclick = function() {
             this.remove();
@@ -147,7 +151,7 @@ function petPuppy(e, el) {
     const meter = document.getElementById('pet-meter-fill');
     if (meter) meter.style.width = Math.min((puppyPets / 10) * 100, 100) + "%";
 
-    for(let i=0; i<5; i++) {
+    for(let i = 0; i < 5; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart-pop';
         heart.innerText = ['❤️','💖','💗','💓'][Math.floor(Math.random()*4)];
@@ -253,16 +257,12 @@ function openGift(id) {
 
     if(id === 1) {
         display.innerHTML = `<h3>My Letter</h3><div class="letter-box">"Happy birthday! I made this just for you."</div>`;
-    }
-
-    else if(id === 2) {
+    } else if(id === 2) {
         display.innerHTML = `<h3>Surprise A</h3>
         <button class="gift-link-btn"
         onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
         View Gift ✨</button>`;
-    }
-
-    else if(id === 3) {
+    } else if(id === 3) {
         display.innerHTML = `<h3>Surprise B</h3>
         <button class="gift-link-btn"
         onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
