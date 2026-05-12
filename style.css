@@ -275,6 +275,10 @@ body {
     border-radius: 20px;
     margin-top: 15px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    /* Adjusted to cover roughly 1/4 of the card area */
+    width: 100%; 
+    max-height: 250px;
+    overflow-y: auto;
 }
 
 .music-controls {
@@ -302,33 +306,45 @@ body {
 
 .floating-disc {
     position: fixed !important;
-    bottom: 18px;
-    right: 18px;
+    bottom: 20px;
+    right: 20px;
+    font-size: 3rem !important;
     z-index: 9999;
-    transform: scale(0.7);
-}
-/* smaller floating music menu */
-
-.floating-disc #music-menu {
-    width: 180px;
+    background: rgba(255,255,255,0.92);
     padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* Updated mini menu to cover 1/4 of the code/screen area */
+.floating-disc #music-menu {
+    width: 50vw;        /* 50% width of screen */
+    height: 50vh;       /* 50% height of screen */
+    /* Together (0.5 * 0.5) = 0.25 (1/4) of the total screen area */
+    max-width: 300px;   /* Safety cap for desktop */
+    max-height: 400px;  /* Safety cap for desktop */
+    padding: 15px;
     margin-top: 8px;
-    border-radius: 16px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .floating-disc .gift-item {
-    padding: 8px;
-    margin: 6px 0;
-    font-size: 0.75rem;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 0.9rem;
     border-radius: 12px;
 }
 
 .floating-disc .music-controls {
-    gap: 8px;
-    margin-top: 8px;
+    gap: 10px;
+    margin-top: auto; /* Pushes controls to bottom of the 1/4 area */
+    padding-bottom: 10px;
 }
 
 .floating-disc .music-controls button {
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    padding: 10px 12px;
+    font-size: 1rem;
 }
