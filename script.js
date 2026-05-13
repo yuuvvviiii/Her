@@ -50,13 +50,13 @@ function selectSong(el, name, url) {
 }
 
 function confirmMusic() {
+    const musicContainer = document.getElementById('floating-music-container');
+
+    document.body.appendChild(musicContainer);
+    musicContainer.classList.add('floating-disc');
+
     document.getElementById('music-screen').classList.add('hidden');
     document.getElementById('confirm-music').classList.add('hidden');
-
-    document
-        .getElementById('floating-music-container')
-        .classList.add('floating-disc');
-
     document.getElementById('music-menu').classList.add('hidden');
 
     startSparkleQuest();
@@ -153,11 +153,20 @@ function next() {
 /* PETTING */
 function startPetting(e, el) {
     el.classList.add('active-pet');
+
+    if (el.innerText === "🐶") el.innerText = "🤩";
+    if (el.innerText === "🐕") el.innerText = "🥰";
+
     petPuppy(e);
 }
 
 function stopPetting(el) {
     el.classList.remove('active-pet');
+
+    setTimeout(() => {
+        if (el.innerText === "🤩") el.innerText = "🐶";
+        if (el.innerText === "🥰") el.innerText = "🐕";
+    }, 300);
 }
 
 function petPuppy(e) {
@@ -171,17 +180,11 @@ function petPuppy(e) {
     for (let i = 0; i < 5; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart-pop';
-        heart.innerText = "💖";
+        heart.innerText = ['❤️','💖','💗','💓'][Math.floor(Math.random()*4)];
         heart.style.left = e.clientX + 'px';
         heart.style.top = e.clientY + 'px';
-        heart.style.setProperty(
-            '--tx',
-            (Math.random() - 0.5) * 200 + 'px'
-        );
-        heart.style.setProperty(
-            '--ty',
-            (Math.random() - 1) * 200 + 'px'
-        );
+        heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
+        heart.style.setProperty('--ty', (Math.random() - 1) * 200 + 'px');
 
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 1000);
@@ -207,12 +210,8 @@ function petPuppy(e) {
                 document.getElementById('flame').classList.remove('hidden');
                 document.getElementById('status').innerText =
                     "Make a wish! Hold the button.";
-
                 btn.innerText = "HOLD TO WISH ✨";
-                document
-                    .getElementById('meter-container')
-                    .classList.remove('hidden');
-
+                document.getElementById('meter-container').classList.remove('hidden');
                 startWish();
             };
         }, 500);
@@ -223,15 +222,12 @@ function petPuppy(e) {
 function startWish() {
     let progress = 0;
     let timer;
-
     const btn = document.getElementById('next-btn');
 
     btn.onpointerdown = () => {
         timer = setInterval(() => {
             progress += 2;
-            document.getElementById(
-                'meter-fill'
-            ).style.width = progress + "%";
+            document.getElementById('meter-fill').style.width = progress + "%";
 
             if (progress >= 100) {
                 clearInterval(timer);
@@ -246,8 +242,7 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText =
-        "Wish Sent! Ab Cake Kaate?? 🎂";
+    document.getElementById('status').innerText = "Wish Sent! Ab Cake Kaate?? 🎂";
 
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
@@ -272,13 +267,8 @@ function showGifts() {
         </div>
 
         <div id="gift-list">
-            <div class="gift-item" onclick="openGift(1)">
-                🎁 Gift 1: A Letter
-            </div>
-
-            <div class="gift-item" onclick="openGift(2)">
-                🎁 Gift 2: Surprise A
-            </div>
+            <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
+            <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
         </div>
 
         <div id="countdown-area"></div>
@@ -328,8 +318,6 @@ function openGift(id) {
 
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
-
-    checkGiftProgress();
 }
 
 function handleEnvelopeTap() {
@@ -345,34 +333,42 @@ function handleEnvelopeTap() {
     }
 }
 
-function checkGiftProgress() {
-    if (openedGift1 && openedGift2) {
-        let countdown = 5;
-        const area = document.getElementById('countdown-area');
-
-        area.innerHTML = `Gift 3 unlocking in ${countdown}... ⏳`;
-
-        const timer = setInterval(() => {
-            countdown--;
-            area.innerHTML = `Gift 3 unlocking in ${countdown}... ⏳`;
-
-            if (countdown <= 0) {
-                clearInterval(timer);
-
-                area.innerHTML = `
-                    <div class="gift-item" onclick="openGift(3)">
-                        🎁 Gift 3: Surprise B
-                    </div>
-                `;
-            }
-        }, 1000);
-    }
-}
-
 function closeGift() {
     document.getElementById('gift-overlay').classList.remove('visible');
 
     setTimeout(() => {
         document.getElementById('gift-overlay').classList.add('hidden');
+
+        if (openedGift1 && openedGift2) {
+            const area = document.getElementById('countdown-area');
+
+            area.innerHTML = `
+                <button class="cute-btn" onclick="unlockFinalGift()">
+                    One Last Thing 💖
+                </button>
+            `;
+        }
     }, 500);
+}
+
+function unlockFinalGift() {
+    let countdown = 5;
+    const area = document.getElementById('countdown-area');
+
+    area.innerHTML = `Opening in ${countdown}... ⏳`;
+
+    const timer = setInterval(() => {
+        countdown--;
+        area.innerHTML = `Opening in ${countdown}... ⏳`;
+
+        if (countdown <= 0) {
+            clearInterval(timer);
+
+            area.innerHTML = `
+                <div class="gift-item" onclick="openGift(3)">
+                    🎁 Final Gift
+                </div>
+            `;
+        }
+    }, 1000);
 }
