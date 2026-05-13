@@ -394,3 +394,61 @@ body {
 .heart-target.up {
     top: 15%; 
 }
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake-effect {
+    animation: shake 0.2s ease-in-out;
+}
+
+.reward-photo {
+    background: white;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 250px;
+}
+
+.reward-photo img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.romantic-words {
+    font-style: italic;
+    color: #d81b60;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}
+
+.whack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.hole {
+    width: 85px;
+    height: 85px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.heart-target {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.5rem;
+    transition: top 0.2s;
+}
+
+.heart-target.up { top: 15%; }
