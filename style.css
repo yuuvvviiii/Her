@@ -1,112 +1,58 @@
-/* =========================================
-   1. GLOBAL VARIABLES & DESIGN TOKENS
-   =========================================
-*/
 :root {
-    /* Color Palette - Primary */
     --lavender-glow: #d1c4e9;
     --deep-purple: #7e57c2;
-    --magic-pink: #ff80ab;
     --soft-pink: #ffdae9;
-    --white-pure: #ffffff;
-    --dark-bg: #121212;
-    
-    /* Functional Colors */
-    --error-red: #ff5252;
-    --success-green: #69f0ae;
-    --glass-background: rgba(255, 255, 255, 0.08);
-    --glass-border: rgba(255, 255, 255, 0.15);
-    
-    /* Animation Timings */
-    --transition-slow: 0.8s;
-    --transition-mid: 0.4s;
-    --transition-fast: 0.2s;
-    
-    /* Shadows */
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.3);
-    --shadow-neon: 0 0 15px rgba(209, 196, 233, 0.5);
-    --shadow-pink: 0 10px 25px rgba(255, 128, 171, 0.3);
+    --magic-pink: #ff80ab;
 }
 
-/* =========================================
-   2. RESET & BASE STYLES
-   =========================================
-*/
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
-    outline: none;
     -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
 body {
-    width: 100%;
+    margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--dark-bg);
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background: #121212;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: hidden;
-    perspective: 1000px;
-    transition: background 4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 4s ease-in-out;
     touch-action: none;
 }
 
 .lights-on {
-    background-image: radial-gradient(circle at center, #ffffff 0%, #f3e5f5 100%);
-    background-color: #ffffff;
+    background: radial-gradient(circle, #fff9fb 0%, #f3e5f5 100%);
 }
 
-/* =========================================
-   3. LAYOUT COMPONENTS (CARDS)
-   =========================================
-*/
+.dark-text {
+    color: var(--lavender-glow);
+    text-shadow: 0 0 12px rgba(209, 196, 233, 0.8);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
 .glass-card {
-    position: relative;
     width: 90%;
-    max-width: 380px;
-    min-height: 620px;
-    background-color: var(--glass-background);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--glass-border);
-    border-radius: 50px;
-    padding-top: 35px;
-    padding-bottom: 35px;
-    padding-left: 25px;
-    padding-right: 25px;
+    max-width: 360px;
+    min-height: 580px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-radius: 40px;
+    padding: 25px;
     text-align: center;
     z-index: 10;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: var(--shadow-soft);
-    transition: all 1.2s ease-in-out;
 }
 
 .cute-ui {
-    background-color: rgba(255, 255, 255, 0.98) !important;
-    border-color: var(--soft-pink) !important;
-    border-width: 4px !important;
-    box-shadow: var(--shadow-pink) !important;
-}
-
-/* =========================================
-   4. TYPOGRAPHY
-   =========================================
-*/
-.dark-text {
-    color: var(--lavender-glow);
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-shadow: var(--shadow-neon);
-    margin-bottom: 25px;
-    letter-spacing: 0.5px;
-    line-height: 1.6;
+    background: rgba(255,255,255,0.98) !important;
+    border: 3px solid var(--soft-pink) !important;
 }
 
 .cute-ui .dark-text {
@@ -114,251 +60,294 @@ body {
     text-shadow: none;
 }
 
-/* =========================================
-   5. INTERACTIVE BUTTONS
-   =========================================
-*/
 .cute-btn {
-    position: relative;
-    background: linear-gradient(135deg, var(--deep-purple), var(--magic-pink));
-    color: var(--white-pure);
+    background: linear-gradient(135deg,#7e57c2,#ff80ab);
+    color: white;
     border: none;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-radius: 35px;
-    font-weight: 800;
-    font-size: 1.05rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    padding: 18px;
+    border-radius: 25px;
+    font-weight: bold;
     width: 100%;
     cursor: pointer;
-    overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
-    box-shadow: 0 8px 20px rgba(126, 87, 194, 0.4);
-}
-
-.cute-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(126, 87, 194, 0.5);
-}
-
-.cute-btn:active {
-    transform: scale(0.95);
+    transition: 0.3s;
 }
 
 .small {
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 10px;
     margin-top: 20px;
     width: auto;
-    font-size: 0.9rem;
+    min-width: 120px;
 }
 
-/* =========================================
-   6. MUSIC SYSTEM STYLES
-   =========================================
-*/
-#floating-music-container {
-    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.floating-disc {
-    position: fixed !important;
-    bottom: 30px;
-    right: 30px;
-    width: 55px;
-    height: 55px;
-    background-color: var(--white-pure);
-    border-radius: 50%;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+.gift-item {
+    background: white;
     border: 2px solid var(--soft-pink);
-}
-
-#music-disc {
-    font-size: 2.8rem;
-    cursor: pointer;
-    animation: rotateDisc 5s linear infinite;
-}
-
-#music-menu {
-    position: absolute;
-    bottom: 80px;
-    right: 0;
-    width: 280px;
-    background-color: var(--white-pure);
-    padding: 25px;
-    border-radius: 30px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    z-index: 10001;
-    border: 1px solid var(--soft-pink);
-}
-
-.music-opt {
-    background-color: #fcfcfc;
-    border: 2px solid #f0f0f0;
-    border-radius: 18px;
-    padding: 15px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--deep-purple);
-    font-weight: 700;
-}
-
-.music-opt:hover {
-    background-color: var(--soft-pink);
-    border-color: var(--magic-pink);
-}
-
-/* =========================================
-   7. ENVELOPE & LETTER ANIMATION
-   =========================================
-*/
-#letter-wrapper {
-    position: relative;
-    width: 240px;
-    height: 180px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
-    margin-bottom: 40px;
-}
-
-#envelope-icon {
-    font-size: 6.5rem;
-    position: relative;
-    z-index: 20;
-    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
-}
-
-#the-letter {
-    position: absolute;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    z-index: 5;
-    opacity: 0;
-    transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-    color: #333333;
-    font-family: 'Georgia', serif;
-    line-height: 1.4;
-    border: 1px solid #eeeeee;
-}
-
-.peek-stage {
-    top: -15px !important;
-    opacity: 1 !important;
-    z-index: 21 !important;
-}
-
-.full-out-stage {
-    top: -150px !important;
-    opacity: 1 !important;
-    z-index: 21 !important;
-    transform: translateX(-50%) rotate(-2deg) !important;
-}
-
-/* =========================================
-   8. PROGRESS METERS
-   =========================================
-*/
-.pet-meter-container, #meter-container {
-    width: 100%;
-    height: 14px;
-    background-color: #f0f0f0;
     border-radius: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-}
-
-#pet-meter-fill, #meter-fill {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(to right, var(--magic-pink), var(--deep-purple));
-    transition: width 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1);
-}
-
-/* =========================================
-   9. KEYFRAMES & ANIMATIONS
-   =========================================
-*/
-@keyframes rotateDisc {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes flicker {
-    0%, 100% { opacity: 0.9; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.15); }
-}
-
-.star {
-    position: absolute;
-    font-size: 2.2rem;
+    padding: 15px;
+    margin: 10px 0;
     cursor: pointer;
-    z-index: 100;
-    user-select: none;
-    animation: float 3s ease-in-out infinite;
+    transition: 0.3s;
+    color: var(--deep-purple);
+    font-weight: bold;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+.gift-item:hover {
+    background: var(--soft-pink);
 }
 
-.heart-pop {
-    position: absolute;
-    pointer-events: none;
-    font-size: 1.8rem;
-    z-index: 150;
-    animation: heartMove 1.2s ease-out forwards;
+.music-opt.selected-item {
+    border: 3px solid var(--magic-pink) !important;
+    background: var(--soft-pink);
+    transform: scale(1.02);
 }
 
-@keyframes heartMove {
-    0% { transform: translate(0, 0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--tx), var(--ty)) scale(0.4); opacity: 0; }
-}
-
-/* =========================================
-   10. UTILITY CLASSES
-   =========================================
-*/
 .hidden {
     display: none !important;
 }
 
-#quest-tag {
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    margin-top: 10px;
-    display: inline-block;
+.star {
+    position: absolute;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 20;
 }
 
-/* =========================================
-   11. MEDIA QUERIES
-   =========================================
-*/
-@media screen and (max-height: 700px) {
-    .glass-card {
-        min-height: 550px;
-        padding: 20px;
+/* OVERLAY */
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.98);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay-content {
+    width: 85%;
+    max-width: 320px;
+    text-align: center;
+}
+
+/* METER */
+
+#meter-fill {
+    width: 0%;
+    height: 12px;
+    background: linear-gradient(to right,#ff80ab,#7e57c2);
+    border-radius: 6px;
+}
+
+.pet-meter-container {
+    width: 100%;
+    height: 12px;
+    background: #eee;
+    border-radius: 10px;
+    margin: 15px 0;
+    overflow: hidden;
+    border: 1px solid var(--soft-pink);
+}
+
+#pet-meter-fill {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(to right,#ff80ab,#ff4081);
+    transition: width 0.3s ease;
+}
+
+/* PUPPIES */
+
+.puppy {
+    font-size: 4rem;
+    cursor: pointer;
+    display: inline-block;
+    margin: 15px;
+    position: relative;
+    transition: 0.2s;
+}
+
+.puppy.active-pet {
+    transform: scale(1.2);
+}
+
+/* HEARTS */
+
+.heart-pop {
+    position: absolute;
+    pointer-events: none;
+    font-size: 1.5rem;
+    animation: heartFly 1s ease-out forwards;
+    z-index: 100;
+}
+
+@keyframes heartFly {
+    0% {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
     }
-    .dark-text {
-        font-size: 0.95rem;
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0.5);
+        opacity: 0;
     }
 }
+
+/* CAKE */
+
+.cake-container {
+    font-size: 5rem;
+    cursor: pointer;
+    position: relative;
+    margin-top: 20px;
+}
+
+.candle-flame {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    animation: flicker 0.3s infinite alternate;
+}
+
+@keyframes flicker {
+    from {
+        opacity: 0.8;
+        transform: translateX(-50%) scale(1);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+    }
+}
+
+/* POLAROID */
+
+.polaroid {
+    background: white;
+    padding: 8px 8px 30px 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border: 1px solid #eee;
+    margin: 5px auto;
+    width: 150px;
+}
+
+.polaroid img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+/* MUSIC DISC */
+
+#music-disc {
+    font-size: 4rem;
+    cursor: pointer;
+    margin: 15px auto;
+    width: fit-content;
+    animation: spinDisc 4s linear infinite;
+    transition: transform 0.3s ease;
+}
+
+#music-disc:hover {
+    transform: scale(1.1);
+}
+
+@keyframes spinDisc {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+#music-menu {
+    background: rgba(255,255,255,0.95);
+    padding: 15px;
+    border-radius: 20px;
+    margin-top: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    /* Adjusted to cover roughly 1/4 of the card area */
+    width: 100%; 
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.music-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.music-controls button {
+    border: none;
+    background: linear-gradient(135deg,#7e57c2,#ff80ab);
+    color: white;
+    padding: 12px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#floating-music-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.floating-disc {
+    position: fixed !important;
+    bottom: 20px;
+    right: 20px;
+    font-size: 3rem !important;
+    z-index: 9999;
+    background: rgba(255,255,255,0.92);
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* Updated mini menu to cover 1/4 of the code/screen area */
+.floating-disc #music-menu {
+    width: 50vw;        /* 50% width of screen */
+    height: 50vh;       /* 50% height of screen */
+    /* Together (0.5 * 0.5) = 0.25 (1/4) of the total screen area */
+    max-width: 300px;   /* Safety cap for desktop */
+    max-height: 400px;  /* Safety cap for desktop */
+    padding: 15px;
+    margin-top: 8px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.floating-disc .gift-item {
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 0.9rem;
+    border-radius: 12px;
+}
+
+.floating-disc .music-controls {
+    gap: 10px;
+    margin-top: auto; /* Pushes controls to bottom of the 1/4 area */
+    padding-bottom: 10px;
+}
+
+.floating-disc .music-controls button {
+    padding: 10px 12px;
+    font-size: 1rem;
+}
+
+/* FIX: I commented out the line below so your button can actually show up! */
+/* #confirm-music { display: none; } */
