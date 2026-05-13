@@ -3,6 +3,7 @@ let starsFound = 0;
 let puppyPets = 0;
 let whackScore = 0;
 let whackActive = false;
+let whackSpeed = 1000;
 
 let openedGift1 = false;
 let openedGift2 = false;
@@ -12,7 +13,7 @@ let finalGiftUnlocked = false;
 const songs = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3"];
 let currentSongIndex = 0;
 
-/* UNLOCK */
+/* UNLOCK FUNCTION */
 function unlock() {
     if (document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
@@ -27,7 +28,7 @@ function unlock() {
     }
 }
 
-/* MUSIC */
+/* MUSIC MENU FUNCTIONS */
 function toggleMusicMenu() {
     document.getElementById('music-menu').classList.toggle('hidden');
 }
@@ -63,7 +64,6 @@ function selectSong(el, name, url) {
 
 function playNextSong() {
     currentSongIndex++;
-
     if (currentSongIndex >= songs.length) {
         currentSongIndex = 0;
     }
@@ -120,8 +120,7 @@ function startSparkleQuest() {
             this.remove();
             starsFound++;
 
-            document.getElementById('quest-tag').innerText =
-                `Sparkles: ${starsFound}/5`;
+            document.getElementById('quest-tag').innerText = `Sparkles: ${starsFound}/5`;
 
             if (starsFound === 5) {
                 btn.classList.remove('hidden');
@@ -133,7 +132,7 @@ function startSparkleQuest() {
     }
 }
 
-/* FLOW */
+/* MAIN FLOW */
 function next() {
     step++;
 
@@ -154,50 +153,37 @@ function next() {
         btn.classList.add('hidden');
 
         setTimeout(() => {
-            if (!document
-                .getElementById('floating-music-container')
-                .classList.contains('floating-disc')) {
-                document.getElementById('music-screen')
-                    .classList.remove('hidden');
+            if (!document.getElementById('floating-music-container').classList.contains('floating-disc')) {
+                document.getElementById('music-screen').classList.remove('hidden');
             }
         }, 1500);
     }
 
     else if (step === 2) {
         document.getElementById('quest-tag').classList.add('hidden');
-        status.innerText =
-            "The puppies want love! Pet them until they're happy! ❤️";
+        status.innerText = "The puppies want love! Pet them until they're happy! ❤️";
         btn.classList.add('hidden');
 
         stage.innerHTML = `
             <div class="pet-meter-container">
                 <div id="pet-meter-fill"></div>
             </div>
-
-            <div class="puppy"
-                onpointerdown="startPetting(event,this)"
-                onpointerup="stopPetting(this)">🐶</div>
-
-            <div class="puppy"
-                onpointerdown="startPetting(event,this)"
-                onpointerup="stopPetting(this)">🐕</div>
+            <div class="puppy" onpointerdown="startPetting(event,this)" onpointerup="stopPetting(this)">🐶</div>
+            <div class="puppy" onpointerdown="startPetting(event,this)" onpointerup="stopPetting(this)">🐕</div>
         `;
     }
 }
 
-/* PETTING */
+/* PETTING LOGIC */
 function startPetting(e, el) {
     el.classList.add('active-pet');
-
     if (el.innerText === "🐶") el.innerText = "🤩";
     if (el.innerText === "🐕") el.innerText = "🥰";
-
     petPuppy(e, el);
 }
 
 function stopPetting(el) {
     el.classList.remove('active-pet');
-
     setTimeout(() => {
         if (el.innerText === "🤩") el.innerText = "🐶";
         if (el.innerText === "🥰") el.innerText = "🐕";
@@ -215,30 +201,34 @@ function petPuppy(e, el) {
     for (let i = 0; i < 5; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart-pop';
-        heart.innerText =
-            ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
-
+        heart.innerText = ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
         heart.style.left = e.clientX + 'px';
         heart.style.top = e.clientY + 'px';
         heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
         heart.style.setProperty('--ty', (Math.random() - 1) * 200 + 'px');
-
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 1000);
     }
 
     if (puppyPets >= 10) {
-        setTimeout(startWhackGame, 500);
+        const btn = document.getElementById('next-btn');
+        btn.classList.remove('hidden');
+        btn.innerText = "Shall we move to the next thing? ✨";
+        btn.onclick = startWhackGame;
     }
 }
 
-/* WHACK GAME */
+/* WHACK GAME (PRO MODE) */
 function startWhackGame() {
     whackScore = 0;
+    whackSpeed = 1000;
     whackActive = true;
+    
+    document.getElementById('next-btn').classList.add('hidden');
     document.getElementById('status').innerText = "Catch 10 Hearts! ❤️";
+    
     document.getElementById('stage').innerHTML = `
-        <div class="whack-grid">
+        <div class="whack-grid" id="whack-board">
             ${'<div class="hole"><span class="heart-target" onclick="whack(this)">❤️</span></div>'.repeat(6)}
         </div>
     `;
@@ -250,25 +240,55 @@ function peep() {
     const holes = document.querySelectorAll('.hole');
     const randomHole = holes[Math.floor(Math.random() * holes.length)];
     const heart = randomHole.querySelector('.heart-target');
+    
     heart.classList.add('up');
+    
+    // Gets faster with every catch
+    const stayTime = Math.max(400, whackSpeed - (whackScore * 60));
+    
     setTimeout(() => {
         heart.classList.remove('up');
         if (whackActive) peep();
-    }, Math.random() * 400 + 600);
+    }, stayTime);
 }
 
 function whack(el) {
-    if (!el.classList.contains('up')) return;
+    if (!el.classList.contains('up')) {
+        document.getElementById('whack-board').classList.add('shake-effect');
+        setTimeout(() => {
+            document.getElementById('whack-board').classList.remove('shake-effect');
+        }, 200);
+        return;
+    }
+
     whackScore++;
     el.classList.remove('up');
     document.getElementById('status').innerText = `Hearts Caught: ${whackScore}/10`;
+    
     if (whackScore >= 10) {
         whackActive = false;
-        setTimeout(showCakeStage, 500);
+        const btn = document.getElementById('next-btn');
+        btn.classList.remove('hidden');
+        btn.innerText = "Claim Your Reward! 🎁";
+        btn.onclick = showGameReward;
     }
 }
 
-/* CAKE */
+/* ROMANTIC REWARD STAGE */
+function showGameReward() {
+    document.getElementById('status').innerText = "For Being A Pro Gamer! ❤️";
+    document.getElementById('stage').innerHTML = `
+        <div class="reward-photo">
+            <img src="reward_photo.jpg" alt="Romantic Moment">
+            <p class="romantic-words">Every beat of my heart is just for you... 🌸</p>
+        </div>
+    `;
+    const btn = document.getElementById('next-btn');
+    btn.innerText = "Ready for the Cake? 🎂";
+    btn.onclick = showCakeStage;
+}
+
+/* CAKE STAGE */
 function showCakeStage() {
     document.getElementById('status').innerText = "Ye Lo Aapke Liye Cake!!🎂";
     document.getElementById('stage').innerHTML = `
@@ -277,9 +297,11 @@ function showCakeStage() {
             🎂
         </div>
     `;
+
     const btn = document.getElementById('next-btn');
     btn.classList.remove('hidden');
     btn.innerText = "Light the Candle";
+
     btn.onclick = () => {
         document.getElementById('flame').classList.remove('hidden');
         document.getElementById('status').innerText = "Make a wish! Hold the button.";
@@ -289,7 +311,7 @@ function showCakeStage() {
     };
 }
 
-/* WISH */
+/* WISH STAGE */
 function startWish() {
     let progress = 0;
     let timer;
@@ -298,9 +320,7 @@ function startWish() {
     btn.onpointerdown = () => {
         timer = setInterval(() => {
             progress += 2;
-            document.getElementById('meter-fill').style.width =
-                progress + "%";
-
+            document.getElementById('meter-fill').style.width = progress + "%";
             if (progress >= 100) {
                 clearInterval(timer);
                 btn.classList.add('hidden');
@@ -314,8 +334,7 @@ function startWish() {
 
 function finishWish() {
     document.getElementById('meter-container').classList.add('hidden');
-    document.getElementById('status').innerText =
-        "Wish Sent! Ab Cake Kaate?? 🎂";
+    document.getElementById('status').innerText = "Wish Sent! Ab Cake Kaate?? 🎂";
 
     document.getElementById('cake-obj').onclick = () => {
         document.getElementById('cake-obj').innerHTML = "🍰";
@@ -328,7 +347,7 @@ function finishWish() {
     };
 }
 
-/* GIFTS */
+/* GIFT STAGE */
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
@@ -338,12 +357,10 @@ function showGifts() {
             <img src="2344.jpg" alt="Us">
             <p style="margin-top:5px;font-size:0.7rem;color:#888;">Forever</p>
         </div>
-
         <div id="gift-list">
             <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
             <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
         </div>
-
         <div id="countdown-area"></div>
     `;
 }
@@ -355,7 +372,6 @@ function openGift(id) {
     if (id === 1) {
         openedGift1 = true;
         envelopeStep = 0;
-
         display.innerHTML = `
             <h3>My Letter 💌</h3>
             <div id="envelope" onclick="handleEnvelopeTap()">
@@ -365,25 +381,18 @@ function openGift(id) {
                 </div>
             </div>
         `;
-    }
-
-    else if (id === 2) {
+    } else if (id === 2) {
         openedGift2 = true;
-
         display.innerHTML = `
             <h3>Surprise A</h3>
-            <button class="cute-btn"
-            onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
+            <button class="cute-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo','_blank')">
                 View Gift ✨
             </button>
         `;
-    }
-
-    else if (id === 3) {
+    } else if (id === 3) {
         display.innerHTML = `
             <h3>Surprise B</h3>
-            <button class="cute-btn"
-            onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
+            <button class="cute-btn" onclick="window.open('https://digibouquet.vercel.app/bouquet/eb3be969-0562-4a09-b4b9-917916dfd044','_blank')">
                 View Gift 💖
             </button>
         `;
@@ -391,17 +400,14 @@ function openGift(id) {
 
     overlay.classList.remove('hidden');
     setTimeout(() => overlay.classList.add('visible'), 10);
-
     checkGiftProgress();
 }
 
 function handleEnvelopeTap() {
     envelopeStep++;
-
     if (envelopeStep === 1) {
         document.getElementById('envelope-flap').innerText = "📩";
     }
-
     if (envelopeStep === 2) {
         document.getElementById('letter-paper').classList.remove('hidden');
         document.getElementById('letter-paper').classList.add('slide-letter');
@@ -420,19 +426,14 @@ function checkGiftProgress() {
 
 function unlockFinalGift() {
     finalGiftUnlocked = true;
-
     let countdown = 5;
     const area = document.getElementById('countdown-area');
 
-    area.innerHTML = `Opening in ${countdown}... ⏳`;
-
     const timer = setInterval(() => {
-        countdown--;
         area.innerHTML = `Opening in ${countdown}... ⏳`;
-
-        if (countdown <= 0) {
+        countdown--;
+        if (countdown < 0) {
             clearInterval(timer);
-
             area.innerHTML = `
                 <div class="gift-item" onclick="openGift(3)">
                     🎁 Gift 3: Surprise B
@@ -443,9 +444,10 @@ function unlockFinalGift() {
 }
 
 function closeGift() {
-    document.getElementById('gift-overlay').classList.remove('visible');
-
+    const overlay = document.getElementById('gift-overlay');
+    overlay.classList.remove('visible');
     setTimeout(() => {
-        document.getElementById('gift-overlay').classList.add('hidden');
+        overlay.classList.add('hidden');
     }, 500);
 }
+
