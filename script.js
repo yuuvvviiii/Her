@@ -13,7 +13,7 @@ let finalGiftUnlocked = false;
 const songs = ["song1.mp3", "song2.mp3", "song3.mp3", "song4.mp3"];
 let currentSongIndex = 0;
 
-/* UNLOCK */
+/* UNLOCK FUNCTION */
 function unlock() {
     if (document.getElementById('pw').value === "0623") {
         document.getElementById('step-0').classList.add('hidden');
@@ -28,7 +28,7 @@ function unlock() {
     }
 }
 
-/* MUSIC */
+/* MUSIC MENU FUNCTIONS */
 function toggleMusicMenu() {
     document.getElementById('music-menu').classList.toggle('hidden');
 }
@@ -132,7 +132,7 @@ function startSparkleQuest() {
     }
 }
 
-/* FLOW */
+/* MAIN FLOW */
 function next() {
     step++;
 
@@ -174,7 +174,7 @@ function next() {
     }
 }
 
-/* PETTING */
+/* PETTING LOGIC */
 function startPetting(e, el) {
     el.classList.add('active-pet');
     if (el.innerText === "🐶") el.innerText = "🤩";
@@ -218,10 +218,10 @@ function petPuppy(e, el) {
     }
 }
 
-/* WHACK GAME (SPEED INCREASES EVERY POINT) */
+/* WHACK GAME (HARD MODE) */
 function startWhackGame() {
     whackScore = 0;
-    whackSpeed = 1000; 
+    whackSpeed = 1000;
     whackActive = true;
     
     document.getElementById('next-btn').classList.add('hidden');
@@ -243,10 +243,13 @@ function peep() {
     
     heart.classList.add('up');
     
+    // Disappears faster than the next one pops up
+    const stayTime = Math.max(300, whackSpeed - 100); 
+    
     setTimeout(() => {
         heart.classList.remove('up');
         if (whackActive) peep();
-    }, whackSpeed);
+    }, stayTime);
 }
 
 function whack(el) {
@@ -261,8 +264,8 @@ function whack(el) {
     whackScore++;
     el.classList.remove('up');
     
-    // SPEED INCREASES HERE: Drops 60ms every point, floor is 400ms
-    whackSpeed = Math.max(400, 1000 - (whackScore * 60));
+    // Aggressive speed: Drops 75ms every point. Floor is 300ms.
+    whackSpeed = Math.max(300, 1000 - (whackScore * 75));
     document.getElementById('status').innerText = `Hearts Caught: ${whackScore}/10`;
     
     if (whackScore >= 10) {
@@ -274,12 +277,12 @@ function whack(el) {
     }
 }
 
-/* REWARD */
+/* ROMANTIC REWARD STAGE */
 function showGameReward() {
     document.getElementById('status').innerText = "For Being A Pro Gamer! ❤️";
     document.getElementById('stage').innerHTML = `
         <div class="reward-photo">
-            <img src="reward_photo.jpg" alt="Special">
+            <img src="reward_photo.jpg" alt="Romantic Moment">
             <p class="romantic-words">Every beat of my heart is just for you... 🌸</p>
         </div>
     `;
@@ -288,7 +291,7 @@ function showGameReward() {
     btn.onclick = showCakeStage;
 }
 
-/* CAKE */
+/* CAKE STAGE */
 function showCakeStage() {
     document.getElementById('status').innerText = "Ye Lo Aapke Liye Cake!!🎂";
     document.getElementById('stage').innerHTML = `
@@ -311,7 +314,7 @@ function showCakeStage() {
     };
 }
 
-/* WISH */
+/* WISH STAGE */
 function startWish() {
     let progress = 0;
     let timer;
@@ -347,7 +350,7 @@ function finishWish() {
     };
 }
 
-/* GIFTS */
+/* GIFT STAGE */
 function showGifts() {
     document.getElementById('status').innerText = "Your Surprises ❤️";
     document.getElementById('next-btn').classList.add('hidden');
