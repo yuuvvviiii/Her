@@ -186,14 +186,23 @@ function next() {
 /* PETTING */
 function startPetting(e, el) {
     el.classList.add('active-pet');
-    petPuppy(e);
+
+    if (el.innerText === "🐶") el.innerText = "🤩";
+    if (el.innerText === "🐕") el.innerText = "🥰";
+
+    petPuppy(e, el);
 }
 
 function stopPetting(el) {
     el.classList.remove('active-pet');
+
+    setTimeout(() => {
+        if (el.innerText === "🤩") el.innerText = "🐶";
+        if (el.innerText === "🥰") el.innerText = "🐕";
+    }, 300);
 }
 
-function petPuppy(e) {
+function petPuppy(e, el) {
     puppyPets++;
 
     const meter = document.getElementById('pet-meter-fill');
@@ -204,7 +213,9 @@ function petPuppy(e) {
     for (let i = 0; i < 5; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart-pop';
-        heart.innerText = ['❤️','💖','💗','💓'][Math.floor(Math.random() * 4)];
+        heart.innerText =
+            ['❤️', '💖', '💗', '💓'][Math.floor(Math.random() * 4)];
+
         heart.style.left = e.clientX + 'px';
         heart.style.top = e.clientY + 'px';
         heart.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
@@ -296,13 +307,8 @@ function showGifts() {
         </div>
 
         <div id="gift-list">
-            <div class="gift-item" onclick="openGift(1)">
-                🎁 Gift 1: A Letter
-            </div>
-
-            <div class="gift-item" onclick="openGift(2)">
-                🎁 Gift 2: Surprise A
-            </div>
+            <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
+            <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
         </div>
 
         <div id="countdown-area"></div>
