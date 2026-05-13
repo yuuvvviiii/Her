@@ -1,6 +1,8 @@
 let step = 0;
 let starsFound = 0;
 let puppyPets = 0;
+let whackScore = 0;
+let whackActive = false;
 
 let openedGift1 = false;
 let openedGift2 = false;
@@ -226,34 +228,65 @@ function petPuppy(e, el) {
     }
 
     if (puppyPets >= 10) {
-        setTimeout(() => {
-            document.getElementById('status').innerText =
-                "Ye Lo Aapke Liye Cake!!🎂";
-
-            document.getElementById('stage').innerHTML = `
-                <div class="cake-container" id="cake-obj">
-                    <span id="flame" class="candle-flame hidden">🔥</span>
-                    🎂
-                </div>
-            `;
-
-            const btn = document.getElementById('next-btn');
-            btn.classList.remove('hidden');
-            btn.innerText = "Light the Candle";
-
-            btn.onclick = () => {
-                document.getElementById('flame').classList.remove('hidden');
-                document.getElementById('status').innerText =
-                    "Make a wish! Hold the button.";
-
-                btn.innerText = "HOLD TO WISH ✨";
-                document.getElementById('meter-container')
-                    .classList.remove('hidden');
-
-                startWish();
-            };
-        }, 500);
+        setTimeout(startWhackGame, 500);
     }
+}
+
+/* WHACK GAME */
+function startWhackGame() {
+    whackScore = 0;
+    whackActive = true;
+    document.getElementById('status').innerText = "Catch 10 Hearts! ❤️";
+    document.getElementById('stage').innerHTML = `
+        <div class="whack-grid">
+            ${'<div class="hole"><span class="heart-target" onclick="whack(this)">❤️</span></div>'.repeat(6)}
+        </div>
+    `;
+    peep();
+}
+
+function peep() {
+    if (!whackActive) return;
+    const holes = document.querySelectorAll('.hole');
+    const randomHole = holes[Math.floor(Math.random() * holes.length)];
+    const heart = randomHole.querySelector('.heart-target');
+    heart.classList.add('up');
+    setTimeout(() => {
+        heart.classList.remove('up');
+        if (whackActive) peep();
+    }, Math.random() * 400 + 600);
+}
+
+function whack(el) {
+    if (!el.classList.contains('up')) return;
+    whackScore++;
+    el.classList.remove('up');
+    document.getElementById('status').innerText = `Hearts Caught: ${whackScore}/10`;
+    if (whackScore >= 10) {
+        whackActive = false;
+        setTimeout(showCakeStage, 500);
+    }
+}
+
+/* CAKE */
+function showCakeStage() {
+    document.getElementById('status').innerText = "Ye Lo Aapke Liye Cake!!🎂";
+    document.getElementById('stage').innerHTML = `
+        <div class="cake-container" id="cake-obj">
+            <span id="flame" class="candle-flame hidden">🔥</span>
+            🎂
+        </div>
+    `;
+    const btn = document.getElementById('next-btn');
+    btn.classList.remove('hidden');
+    btn.innerText = "Light the Candle";
+    btn.onclick = () => {
+        document.getElementById('flame').classList.remove('hidden');
+        document.getElementById('status').innerText = "Make a wish! Hold the button.";
+        btn.innerText = "HOLD TO WISH ✨";
+        document.getElementById('meter-container').classList.remove('hidden');
+        startWish();
+    };
 }
 
 /* WISH */
