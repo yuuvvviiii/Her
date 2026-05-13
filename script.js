@@ -283,7 +283,7 @@ function showGameReward() {
     document.getElementById('stage').innerHTML = `
         <div class="reward-photo">
             <img src="reward_photo.jpg" alt="Romantic Moment">
-            <p class="romantic-words">Yawwrrr Itni Aasani Se Kaise Kr Liya Aapna 😭.</p>
+            <p class="romantic-words">Yawwrrr Itni Aasani Se Kaise Kr Liya Aapne 😭.</p>
         </div>
     `;
     const btn = document.getElementById('next-btn');
