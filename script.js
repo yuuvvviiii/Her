@@ -388,7 +388,7 @@ function openGift(id) {
         openedGift2 = true;
         display.innerHTML = `
             <h3>Surprise A</h3>
-            <button class="cute-btn" onclick="window.open('https://youtube.com/shorts/zQTIBAcK_mo?si=rj0GtJZGowUsFfrJ','_blank')">
+            <button class="cute-btn" onclick="window.open('https://yuuvvviiii.github.io/Herrr/','_blank')">
                 View Gift ✨
             </button>
         `;
