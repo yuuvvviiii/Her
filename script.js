@@ -272,14 +272,14 @@ function whack(el) {
         whackActive = false;
         const btn = document.getElementById('next-btn');
         btn.classList.remove('hidden');
-        btn.innerText = "Claim Your Reward! 🎁";
+        btn.innerText = "EHHH????";
         btn.onclick = showGameReward;
     }
 }
 
 /* ROMANTIC REWARD STAGE */
 function showGameReward() {
-    document.getElementById('status').innerText = "For Being A Pro Gamer! ❤️";
+    document.getElementById('status').innerText = "For Being A Pro Gamer! 🩷";
     document.getElementById('stage').innerHTML = `
         <div class="reward-photo">
             <img src="reward_photo.jpg" alt="Romantic Moment">
@@ -362,7 +362,7 @@ function showGifts() {
         </div>
         <div id="gift-list">
             <div class="gift-item" onclick="openGift(1)">🎁 Gift 1: A Letter</div>
-            <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise A</div>
+            <div class="gift-item" onclick="openGift(2)">🎁 Gift 2: Surprise </div>
         </div>
         <div id="countdown-area"></div>
     `;
@@ -439,7 +439,7 @@ function unlockFinalGift() {
             clearInterval(timer);
             area.innerHTML = `
                 <div class="gift-item" onclick="openGift(3)">
-                    🎁 Gift 3: Surprise B
+                    🎁 Gift 3: 🤭
                 </div>
             `;
         }
