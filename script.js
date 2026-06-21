@@ -380,7 +380,8 @@ function openGift(id) {
             <div id="envelope" onclick="handleEnvelopeTap()">
                 <div id="envelope-flap">✉️</div>
                 <div id="letter-paper" class="hidden">
-                    Happy birthday! I made this just for you ❤️
+                    HAPPYYY BIRTHDAAYYYYY BANNIII SAAA!!!!! 💝🎀🌷
+                    
                 </div>
             </div>
         `;
