@@ -243,7 +243,6 @@ function peep() {
     
     heart.classList.add('up');
     
-    // Disappears faster than the next one pops up
     const stayTime = Math.max(300, whackSpeed - 100); 
     
     setTimeout(() => {
@@ -264,7 +263,6 @@ function whack(el) {
     whackScore++;
     el.classList.remove('up');
     
-    // Aggressive speed: Drops 75ms every point. Floor is 300ms.
     whackSpeed = Math.max(300, 1000 - (whackScore * 75));
     document.getElementById('status').innerText = `Hearts Caught: ${whackScore}/10`;
     
@@ -484,7 +482,8 @@ function closeGift() {
         overlay.classList.add('hidden');
     }, 500);
 }
-// --- PASTE THIS AT THE VERY BOTTOM OF YOUR SCRIPT.JS ---
+
+/* FALLING BACKGROUND EFFECTS */
 function startFallingGems() {
     const bgContainer = document.getElementById('falling-bg');
     if (!bgContainer || bgContainer.children.length > 0) return; 
@@ -505,20 +504,10 @@ function startFallingGems() {
     }
 }
 
-// Ensure it hooks seamlessly into your overlay system
+// Hook into overlay system correctly
 const originalOpenGift = openGift;
 openGift = function(id) {
     originalOpenGift(id);
     startFallingGems();
 };
-
-
-// Ensure it hooks seamlessly into your overlay system
-const originalOpenGift = openGift;
-openGift = function(id) {
-    originalOpenGift(id);
-    startFallingGems();
-};
-
-
 
