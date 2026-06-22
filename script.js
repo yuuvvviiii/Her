@@ -372,7 +372,7 @@ function openGift(id) {
     const overlay = document.getElementById('gift-overlay');
     const display = document.getElementById('gift-display');
 
-    if (id === 1) {
+      if (id === 1) {
         openedGift1 = true;
         envelopeStep = 0;
         display.innerHTML = `
@@ -380,12 +380,42 @@ function openGift(id) {
             <div id="envelope" onclick="handleEnvelopeTap()">
                 <div id="envelope-flap">✉️</div>
                 <div id="letter-paper" class="hidden">
-                    HAPPYYY BIRTHDAAYYYYY BANNIII SAAA!!!!! 💝🎀🌷
+                    <p><strong>Haaapppiiii Birthdayyyy Baanniii Saaaa!!! 🤌 🎀💝🌷🧿😽</strong></p>
                     
+                    <p>Aur Ho Gaye ek saal bade 🤧 hehe. I am so incredibly lucky to have you in my life. Tumhare saath har moment special ban jata hai, aur tumhari smile literally mera din bana deti hai🫶. You're like colours to a black and white tv for meh. Thank Youu yawrrr for everything. I hope ki tera aane wala saal accha jaaeee aur goes with bahut saara joy and happiness.</p>
+                    
+                    <p>Sunn... I had a crush on ya (tune reject kr diya vo alag baat hai) I have A CRUSH on yaa (even though ur mine most prob🙄) and I'm not stopping for nay reasooonnn. "MAI TERA" sambhalo mujhe abhi 😹. Enjoy kro apni life, daat khao, bakchodi karo, aur mujhe kissi doo 😽.</p>
+                    
+                    <p>Yk if I ever had to describe ya in words, i wouldn't be able to do so cause the words in dictionary are less for me to do so! Every time I see youh it's just like I am above the seven skies 🫠.</p>
+                    
+                    <p>I know that there's many things going on in both of our lifes, but I'm giving it my all I just don't wanna lose you or give you a reason to replace me!! I'll continue to put my efforts even against all the odds and I'll say youh:<br>
+                    <strong>"Keep hope everything will be finee"</strong></p>
+                    
+                    <p>Chodd abhi ye sb tu bata aaj tune toh maje kiye hoge naaa ya kya pata abhi kregi jo bhi hai acche se enjoy krio apna din 🫶.</p>
+                    
+                    <p>I'll convince my parents sum how but sun mai akele kuch nai kr skta I'll need ur support bhadwi chod k mat jaana 🤧.</p>
+                    
+                    <p>Aur kya bolu....🤔</p>
+                    
+                    <p>Huuu.. tu abhi jaise jaise badi hogi tujhe freedom milna shuru ho jaaega enjoy ur freedom but dusre ldko ko dheka na Teri aankhein nikal ke ghoti khelunge dhek kiyooo "ur sirf mineee!!!".</p>
+                    
+                    <p>Ik I couldn't give u the best gifts today but you what I'm trying my besttt. Ik that aapke aur dosto ne acche acche gifts diye hoge like aapka big bro 🙄 Mera gift kuch nai h uske saamne kya kare 😭😭. sorri huuu.</p>
+                    
+                    <p>If u ever need anything just text me I'll always be there if I'm by chance not available text aiden he's just me in another body. Kuch bhi help ho ya agar kisi ne kuch bola ya daata ya kuch bhi you can always come to mee I'll be there. Aur haa zayda bakchodi mt kriyo mere saath 🔪🔪.</p>
+                    
+                    <p>Shyd zayda likh diya hai ab aur kuch nai likhungan.</p>
+                    
+                    <p>Once again Happiii Birthdayyy Banni saa ye aane wala saal acche se enjoy Krna aur Hope rkhna bs.<br>
+                    I'll always be there for ya👍 (pinky wala promiseee🤞)</p>
+                    
+                    <p>Chal byuuuiiii<br>
+                    <strong>Luuvvvv yaaaaaa 💝🌷🧿🫶😽</strong></p>
                 </div>
             </div>
         `;
-    } else if (id === 2) {
+    }
+
+    else if (id === 2) {
         openedGift2 = true;
         display.innerHTML = `
             <h3>Surprise A</h3>
