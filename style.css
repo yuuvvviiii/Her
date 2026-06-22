@@ -522,4 +522,56 @@ body {
     line-height: 1.5 !important;
     display: block !important;
 }
+/* --- ADD THIS AT THE VERY BOTTOM OF YOUR STYLE.CSS --- */
+
+/* Parent overlay content adjustments */
+.overlay-content {
+    width: 92% !important;
+    max-width: 360px !important;
+    max-height: 85vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    z-index: 10 !important; /* Keeps the text card on top of the emojis */
+}
+
+/* Fixes the letter scrolling cutoff */
+#letter-paper {
+    padding: 25px !important;
+    font-size: 0.95rem !important;
+    width: 114% !important;
+    position: relative !important;
+    left: -7% !important;
+    max-height: 400px !important;    
+    overflow-y: scroll !important;   
+    -webkit-overflow-scrolling: touch !important; 
+    text-align: left !important;
+    line-height: 1.5 !important;
+    display: block !important;
+}
+
+/* Background floating emojis styling */
+.falling-emojis {
+    position: absolute !important;
+    top: -50px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 120% !important;
+    font-size: 24px !important;
+    display: flex !important;
+    justify-content: space-around !important;
+    pointer-events: none !important; /* Makes sure she can tap through them safely */
+    opacity: 0.35 !important;        /* Keeps them subtle and soft so they don't distract */
+    z-index: 1 !important;           /* Puts them behind the card */
+    animation: driftBackground 12s linear infinite !important;
+}
+
+@keyframes driftBackground {
+    0% {
+        transform: translateY(0) rotate(0deg);
+    }
+    100% {
+        transform: translateY(100vh) rotate(20deg);
+    }
+}
 
