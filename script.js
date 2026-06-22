@@ -484,7 +484,7 @@ function closeGift() {
         overlay.classList.add('hidden');
     }, 500);
 }
-// --- PASTE THIS AT THE VERY BOTTOM OF YOUR SCRIPT.JS ---
+// --- PASTE THIS AT THE ABSOLUTE BOTTOM OF YOUR SCRIPT.JS ---
 function startFallingGems() {
     const bgContainer = document.getElementById('falling-bg');
     if (!bgContainer || bgContainer.children.length > 0) return; 
@@ -504,6 +504,15 @@ function startFallingGems() {
         bgContainer.appendChild(gem);
     }
 }
+
+// Safer trigger: runs automatically whenever she clicks anywhere inside the card/overlay
+document.addEventListener('click', function() {
+    const overlay = document.getElementById('gift-overlay');
+    if (overlay && !overlay.classList.contains('hidden')) {
+        startFallingGems();
+    }
+});
+
 
 // Ensure it hooks seamlessly into your overlay system
 const originalOpenGift = openGift;
