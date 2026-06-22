@@ -584,3 +584,13 @@ body {
     /* You would also need a CSS animation here to make them drop down */
 }
 
+/* --- ADD THIS AT THE VERY BOTTOM OF YOUR STYLE.CSS --- */
+
+#floating-music-container, 
+#music-disc, 
+.floating-disc {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 99999 !important; /* Forces it to stay on top of everything, even the overlay! */
+}
