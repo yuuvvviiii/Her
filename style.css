@@ -647,3 +647,10 @@ body {
         transform: translateY(115vh) rotate(360deg);
     }
 }
+/* --- ADD THIS AT THE ABSOLUTE BOTTOM OF YOUR STYLE.CSS --- */
+
+.overlay.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
