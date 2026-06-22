@@ -574,4 +574,13 @@ body {
         transform: translateY(100vh) rotate(20deg);
     }
 }
+.falling-emojis {
+    position: absolute;
+    top: -20px;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    pointer-events: none;
+    /* You would also need a CSS animation here to make them drop down */
+}
 
