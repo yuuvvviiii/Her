@@ -114,6 +114,7 @@ body {
 
 /* OVERLAY */
 
+/* OVERLAY */
 .overlay {
     position: fixed;
     top: 0;
@@ -122,18 +123,21 @@ body {
     height: 100%;
     background: rgba(255,255,255,0.98);
     z-index: 100;
-    display: flex;
+    display: none; /* Change from flex to none by default */
     justify-content: center;
     align-items: center;
     opacity: 0;
     pointer-events: none;
-    transition: 0.5s;
+    transition: opacity 0.5s ease;
 }
 
+/* When the JavaScript adds the .visible class, it switches to flex and fades in */
 .overlay.visible {
+    display: flex !important;
     opacity: 1;
     pointer-events: auto;
 }
+
 
 .overlay-content {
     width: 85%;
