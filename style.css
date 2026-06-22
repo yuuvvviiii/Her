@@ -496,4 +496,30 @@ body {
     line-height: 1.5 !important;
     display: block !important;       /* Ensures text builds downward naturally */
 }
+/* --- ADD THIS AT THE VERY BOTTOM OF YOUR STYLE.CSS --- */
+
+/* Fix overlay content to allow full scrolling inside */
+.overlay-content {
+    width: 92% !important;
+    max-width: 360px !important;
+    max-height: 85vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+}
+
+/* Fixes the scrolling cutoff without touching your JS click steps */
+#letter-paper {
+    padding: 25px !important;
+    font-size: 0.95rem !important;
+    width: 114% !important;
+    position: relative !important;
+    left: -7% !important;
+    max-height: 400px !important;    /* Clean visible window for the text */
+    overflow-y: scroll !important;   /* Forces touch scrolling to work */
+    -webkit-overflow-scrolling: touch !important; /* Makes it smooth on phones */
+    text-align: left !important;
+    line-height: 1.5 !important;
+    display: block !important;
+}
 
