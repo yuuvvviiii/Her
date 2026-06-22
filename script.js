@@ -484,3 +484,30 @@ function closeGift() {
         overlay.classList.add('hidden');
     }, 500);
 }
+// --- PASTE THIS AT THE VERY BOTTOM OF YOUR SCRIPT.JS ---
+function startFallingGems() {
+    const bgContainer = document.getElementById('falling-bg');
+    if (!bgContainer || bgContainer.children.length > 0) return; 
+
+    const icons = ['🌷', '💝', '🫶', '🧿', '🎀', '🤌'];
+    
+    for (let i = 0; i < 20; i++) {
+        const gem = document.createElement('span');
+        gem.innerText = icons[Math.floor(Math.random() * icons.length)];
+        gem.style.position = 'absolute';
+        gem.style.left = Math.random() * 100 + 'vw';
+        gem.style.top = '-' + (Math.random() * 50 + 20) + 'px';
+        gem.style.fontSize = '24px';
+        gem.style.opacity = '0.35';
+        gem.style.animation = `bgDrift ${Math.random() * 4 + 7}s linear infinite`;
+        gem.style.animationDelay = `${Math.random() * 5}s`;
+        bgContainer.appendChild(gem);
+    }
+}
+
+// Ensure it hooks seamlessly into your overlay system
+const originalOpenGift = openGift;
+openGift = function(id) {
+    originalOpenGift(id);
+    startFallingGems();
+};
